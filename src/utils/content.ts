@@ -18,7 +18,8 @@ const metaCache = new Map<string, { minutes: number }>()
  * @returns Enhanced article with reading time information
  */
 async function addMetaToArticle(article: CollectionEntry<'articles'>): Promise<Article> {
-  const cacheKey = `${article.id}-${ lang || 'universal'}`
+  // Since this is a single-language site, the cache key no longer needs a language identifier.
+  const cacheKey = article.id
 
   if (metaCache.has(cacheKey)) {
     return {
@@ -37,27 +38,17 @@ async function addMetaToArticle(article: CollectionEntry<'articles'>): Promise<A
 }
 
 async function _checkArticleSlugDuplication(articles: CollectionEntry<'articles'>[]): Promise<string[]> {
-  const slugMap = new Map<string, Set<string>>()
+  const slugSet = new Set<string>()
   const duplicates: string[] = []
 
   articles.forEach((article) => {
     const slug = article.data.abbrlink || article.id
 
-    if (!slugMap.has(lang)) {
-      slugMap.set(lang, new Set())
-    }
-
-    const slugSet = slugMap.get(lang)!
-    if (!slugSet.has(slug)) {
-      slugSet.add(slug)
-      return
-    }
-
-    if (!lang) {
-      duplicates.push(`Duplicate slug "${slug}" found in universal article (applies to all languages)`)
+    if (slugSet.has(slug)) {
+      duplicates.push(`Duplicate slug "${slug}" found`)
     }
     else {
-      duplicates.push(`Duplicate slug "${slug}" found in "${lang}" language article`)
+      slugSet.add(slug)
     }
   })
 
@@ -69,18 +60,14 @@ export const checkArticleSlugDuplication = memoize(_checkArticleSlugDuplication)
 /**
  * Get all articles (including pinned ones, excluding drafts in production)
  *
- * @param lang The language code to filter by, defaults to site's default language
- * @returns articles filtered by language, enhanced with metadata, sorted by date
+ * @returns articles enhanced with metadata, sorted by date
  */
-async function _getArticles(language?: string) {
-  const currentLang = language
-
+async function _getArticles() {
   const filteredarticles = await getCollection(
     'articles',
     ({ data }: CollectionEntry<'articles'>) => {
       // Show drafts in dev mode only
-      const shouldInclude = import.meta.env.DEV || !data.draft
-      return shouldInclude && (lang === currentLang || lang === '')
+      return import.meta.env.DEV || !data.draft
     },
   )
 
@@ -96,11 +83,10 @@ export const getArticles = memoize(_getArticles)
 /**
  * Get all non-pinned articles
  *
- * @param lang The language code to filter by, defaults to site's default language
- * @returns Regular articles (non-pinned), filtered by language
+ * @returns Regular articles (non-pinned)
  */
-async function _getRegularArticles(lang?: string) {
-  const articles = await getArticles(lang)
+async function _getRegularArticles() {
+  const articles = await getArticles()
   return articles.filter(article => !article.data.pin)
 }
 
@@ -109,11 +95,10 @@ export const getRegularArticles = memoize(_getRegularArticles)
 /**
  * Get pinned articles sorted by pin priority
  *
- * @param lang The language code to filter by, defaults to site's default language
  * @returns Pinned articles sorted by pin value in descending order
  */
-async function _getPinnedArticles(lang?: string) {
-  const articles = await getArticles(lang)
+async function _getPinnedArticles() {
+  const articles = await getArticles()
   return articles
     .filter(article => article.data.pin && article.data.pin > 0)
     .sort((a, b) => (b.data.pin ?? 0) - (a.data.pin ?? 0))
@@ -124,11 +109,10 @@ export const getPinnedArticles = memoize(_getPinnedArticles)
 /**
  * Group articles by year and sort within each year
  *
- * @param lang The language code to filter by, defaults to site's default language
  * @returns Map of articles grouped by year (descending), sorted by date within each year
  */
-async function _getArticlesByYear(lang?: string): Promise<Map<number, Article[]>> {
-  const articles = await getRegularArticles(lang)
+async function _getArticlesByYear(): Promise<Map<number, Article[]>> {
+  const articles = await getRegularArticles()
   const yearMap = new Map<number, Article[]>()
 
   articles.forEach((article: Article) => {
@@ -156,11 +140,10 @@ export const getArticlesByYear = memoize(_getArticlesByYear)
 /**
  * Group articles by their tags
  *
- * @param lang The language code to filter by, defaults to site's default language
  * @returns Map where keys are tag names and values are arrays of articles with that tag
  */
-async function _getArticlesGroupByTags(lang?: string) {
-  const articles = await getArticles(lang)
+async function _getArticlesGroupByTags() {
+  const articles = await getArticles()
   const tagMap = new Map<string, Article[]>()
 
   articles.forEach((article: Article) => {
@@ -180,11 +163,10 @@ export const getArticlesGroupByTags = memoize(_getArticlesGroupByTags)
 /**
  * Get all tags sorted by article count
  *
- * @param lang The language code to filter by, defaults to site's default language
  * @returns Array of tags sorted by popularity (most articles first)
  */
-async function _getAllTags(lang?: string) {
-  const tagMap = await getArticlesGroupByTags(lang)
+async function _getAllTags() {
+  const tagMap = await getArticlesGroupByTags()
   const tagsWithCount = Array.from(tagMap.entries())
 
   tagsWithCount.sort((a, b) => b[1].length - a[1].length)
@@ -197,11 +179,10 @@ export const getAllTags = memoize(_getAllTags)
  * Get all articles that contain a specific tag
  *
  * @param tag The tag name to filter articles by
- * @param lang The language code to filter by, defaults to site's default language
  * @returns Array of articles that contain the specified tag
  */
-async function _getArticlesByTag(tag: string, lang?: string) {
-  const tagMap = await getArticlesGroupByTags(lang)
+async function _getArticlesByTag(tag: string) {
+  const tagMap = await getArticlesGroupByTags()
   return tagMap.get(tag) ?? []
 }
 
