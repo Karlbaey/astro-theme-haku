@@ -21,10 +21,8 @@ export async function getStaticPaths() {
   return paths
 }
 
-const { language } = Astro.props
-
-const pinnedPosts = await getPinnedArticles(language)
-const articlesByYear = await getArticlesByYear(language)
+const pinnedPosts = await getPinnedArticles()
+const articlesByYear = await getArticlesByYear()
 ---
 
 <Layout>

@@ -1,7 +1,6 @@
 import type { CollectionEntry } from "astro:content"
 import { getCollection, render } from "astro:content"
 import { memoize } from "@/utils/cache"
-import { lang } from "@/config"
 
 export type Article = CollectionEntry<'articles'> & {
   remarkPluginFrontmatter: {
