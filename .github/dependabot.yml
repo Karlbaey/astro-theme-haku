@@ -1,0 +1,33 @@
+# dependabot.yml
+version: 2
+
+updates:
+  - package-ecosystem: "pnpm"
+    directory: "/" # where package.json
+    schedule:
+      interval: "daily"
+      time: "04:00"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    labels:
+      - "dependencies"
+    groups:
+      astro-framework:
+        patterns:
+          - "@astrojs/*"
+          - "astro"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
+    labels:
+      - "ci"
+      - "dependencies"
