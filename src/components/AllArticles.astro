@@ -1,0 +1,42 @@
+---
+import type { Article, Language } from "@/types";
+import { isHomePage } from "@/utils/pages";
+import { getArticlePath } from "@/utils/path";
+
+export interface Props {
+  articles: Article[];
+  lang: Language;
+  pinned?: boolean;
+}
+
+const { articles, lang, pinned = false } = Astro.props;
+const isHome = isHomePage(Astro.url.pathname);
+---
+
+<ul>
+  {
+    articles.map((article) => {
+      const slug = article.data.abbrlink || article.id;
+
+      return (
+        <li class:list={["mb-5.5", isHome ? "lg:mb-10" : ""]}>
+          {/* article title */}
+          <h3 class="inline transition-colors hover:c-primary">
+            <a
+              class:list={[
+                "cjk:tracking-wide",
+                isHome ? "lg:font-medium lg:text-4.5" : "",
+              ]}
+              href={getArticlePath(slug)}
+              transition:name={`article-${slug}${lang ? `-${lang}` : ""}`}
+              data-disable-theme-transition
+            >
+                {article.data.title}
+            </a>
+            {/* pinned, not ready yet */}
+          </h3>
+        </li>
+      );
+    })
+  }
+</ul>

@@ -1,10 +1,27 @@
 import type { CollectionEntry } from "astro:content";
 
-export type Post = CollectionEntry<"posts"> & {
+export type Article = CollectionEntry<"articles"> & {
   remarkPluginFrontmatter: {
     minutes: number;
   };
 };
+
+export const langMap = {
+  'de': ['de-DE'],
+  'en': ['en-US'],
+  'es': ['es-ES'],
+  'fr': ['fr-FR'],
+  'ja': ['ja-JP'],
+  'ko': ['ko-KR'],
+  'pl': ['pl-PL'],
+  'pt': ['pt-BR'],
+  'ru': ['ru-RU'],
+  'zh': ['zh-CN'],
+  'zh-tw': ['zh-TW'],
+} as const
+
+// Supported Languages
+export type Language = keyof typeof langMap
 
 export interface ThemeConfig {
   site: {
@@ -17,7 +34,7 @@ export interface ThemeConfig {
     favicon: string;
   };
   global: {
-    lang: string;
+    lang: Language;
     toc: boolean;
     dateFmt: 'YYYY-MM-DD' | 'MM-DD-YYYY' | 'DD-MM-YYYY' | 'MMM D YYYY' | 'D MMM YYYY'
   };
