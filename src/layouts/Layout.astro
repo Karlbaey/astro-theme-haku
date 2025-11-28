@@ -3,7 +3,6 @@
 import Head from "@/layouts/Head.astro";
 import Header from "@/components/Header.astro";
 import Navbar from "@/components/Navbar.astro";
-import CopyButton from "@/components/Widgets/CopyButton.astro";
 import themeConfig from "@/config";
 import "../styles/global.css";
 import "../styles/markdown.css";
@@ -22,7 +21,9 @@ const { author } = themeConfig.site;
 <html lang="zh-cn">
   <Head />
   <body>
-    <div class="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[200px_1fr] lg:gap-x-4">
+    <div
+      class="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[200px_1fr] lg:gap-x-4"
+    >
       <aside>
         <div class="lg:sticky lg:top-10">
           <Header />
@@ -32,14 +33,17 @@ const { author } = themeConfig.site;
 
       <main class="py-8">
         <div class="content-wrapper">
-          <slot />
-          <CopyButton />
+          <article class="markdown">
+            <slot />
+          </article>
           <footer class="mt-12 pt-8 border-t border-gray-200">
-            <p>&copy; {new Date().getFullYear()} {author} - All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()}
+              {author} - All rights reserved.
+            </p>
           </footer>
         </div>
       </main>
-      
     </div>
   </body>
 </html>
