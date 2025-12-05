@@ -102,7 +102,7 @@ npm run dev
 
 ### 图片
 
-![这是一个示例图片](../../assets/favicon.png "图片悬停标题")
+![这是一个示例图片](/favicon.png "图片悬停标题")
 
 ---
 

@@ -8,7 +8,7 @@ export const themeConfig: ThemeConfig = {
         author: 'Jerry Karlbaey',
         base: '/',
         url: 'https://haku.karlbaey.top',
-        favicon: '/src/assets/favicon.png'
+        favicon: '/favicon.png'
     },
     global: {
         lang: 'zh',
