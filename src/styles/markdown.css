@@ -29,7 +29,8 @@
   --shadow-polaroid-dark: 0 5px 15px rgb(0 0 0 / 0.3);
 
   /* 字体 */
-  --font-family-handwritten: "Noto Serif SC", "Consolas", "Noto Sans SC";
+  --font-family-handwritten: "Noto Sans SC";
+  --font-family-text: "Noto Serif SC";
 
   /* 间距系统 */
   --space-xs: 0.25rem;
@@ -73,7 +74,7 @@
 .markdown {
   & :is(h1, h2, h3, h4, h5, h6) {
     color: var(--color-heading);
-    font-family: var(--font-sans);
+    font-family: var(--font-family-text);
     font-weight: 600;
     scroll-margin-top: 6rem;
 

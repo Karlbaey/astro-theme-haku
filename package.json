@@ -9,16 +9,24 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.12",
     "@tailwindcss/vite": "^4.1.17",
-    "astro": "^5.16.2",
+    "astro": "^5.16.4",
+    "katex": "^0.16.25",
     "markdown-it": "^14.1.0",
     "mdast-util-to-string": "^4.0.0",
-    "reading-time": "^1.5.0",
     "medium-zoom": "^1.1.0",
+    "mermaid": "^11.12.2",
+    "reading-time": "^1.5.0",
     "rehype-callouts": "^2.1.2",
+    "rehype-katex": "^7.0.1",
+    "remark-github-alerts": "^0.1.1",
+    "remark-math": "^6.0.0",
+    "remark-mermaidjs": "^7.0.0",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {
-    "@types/markdown-it": "^14.1.2"
+    "@types/markdown-it": "^14.1.2",
+    "playwright": "^1.57.0"
   }
 }

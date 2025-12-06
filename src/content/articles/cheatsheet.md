@@ -1,9 +1,9 @@
 ---
-title: 'Cheatsheet'
+title: "Cheatsheet"
 published: 2025-11-23
 tags:
-  - 'Markdown'
-abbrlink: 'cheatsheet'
+  - "Markdown"
+abbrlink: "cheatsheet"
 ---
 
 这是一份用于测试您的博客或网站 Markdown 渲染效果的文档。如果所有内容都显示正常，那么您的 Markdown 解析器工作良好。
@@ -13,24 +13,29 @@ abbrlink: 'cheatsheet'
 ## 1. 标题 (Headers)
 
 # 一级标题 (H1)
+
 ## 二级标题 (H2)
+
 ### 三级标题 (H3)
+
 #### 四级标题 (H4)
+
 ##### 五级标题 (H5)
+
 ###### 六级标题 (H6)
 
 ---
 
 ## 2. 文本样式 (Text Styles)
 
-*这是斜体文本*
+_这是斜体文本_
 _这也是斜体文本_
 
 **这是粗体文本**
-__这也是粗体文本__
+**这也是粗体文本**
 
-***这是粗斜体文本***
-___这也是粗斜体文本___
+**_这是粗斜体文本_**
+**_这也是粗斜体文本_**
 
 ~~这是带删除线的文本~~
 
@@ -46,11 +51,11 @@ ___这也是粗斜体文本___
 
 ### 无序列表
 
-*   列表项 A
-*   列表项 B
-    *   嵌套列表项 B1
-    *   嵌套列表项 B2
-*   列表项 C
+- 列表项 A
+- 列表项 B
+  - 嵌套列表项 B1
+  - 嵌套列表项 B2
+- 列表项 C
 
 ### 有序列表
 
@@ -109,10 +114,10 @@ npm run dev
 ## 6. 表格 (Tables)
 
 | 对齐方式 | 左对齐 | 居中对齐 | 右对齐 |
-| :--- | :--- | :---: | ---: |
-| **内容** | Cell 1 | Cell 2 | Cell 3 |
-| **示例** | a | b | c |
-| **数据** | 123 | 456 | 789 |
+| :------- | :----- | :------: | -----: |
+| **内容** | Cell 1 |  Cell 2  | Cell 3 |
+| **示例** | a      |    b     |      c |
+| **数据** | 123    |   456    |    789 |
 
 ---
 
@@ -120,22 +125,112 @@ npm run dev
 
 这是一个需要脚注的句子[^1]。这是另一个需要脚注的地方[^footnote2]。
 
-***
+## 8. 数学公式 (KaTeX / MathJax)
 
-### 复盘与建议
+测试您的环境是否支持 LaTeX 语法的数学公式渲染。
 
-1.  **检查重点**：请特别关注**代码块高亮**、**表格对齐**和**任务列表样式**，这些是不同 Markdown 渲染器最容易出现差异的地方。
-2.  **扩展测试**：如果您的博客支持，还可以尝试更高级的语法，如 **Mermaid 图表** (用于流程图、序列图) 或 **KaTeX/MathJax** (用于数学公式)，以测试其扩展功能。例如：
+### 行内公式
 
-    ```mermaid
-    graph TD;
-        A-->B;
-        A-->C;
-        B-->D;
-        C-->D;
-    ```
+质能方程是 $ E=mc^2 $。当 $ a \ne 0 $ 时，二次方程 $ ax^2 + bx + c = 0 $ 的解为 $ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $。
 
-希望这份速查表能帮助到您！
+### 块级公式
+
+麦克斯韦方程组 (积分形式):
+
+$$
+
+\oint_S \mathbf{D} \cdot d\mathbf{a} = Q_{in} \\
+\oint_S \mathbf{B} \cdot d\mathbf{a} = 0 \\
+\oint_C \mathbf{E} \cdot d\mathbf{l} = - \frac{d\Phi_B}{dt} \\
+\oint_C \mathbf{H} \cdot d\mathbf{l} = I_{in} + \frac{d\Phi_D}{dt}
+
+$$
+
+---
+
+## 9. Mermaid 图表渲染
+
+测试是否支持通过代码生成图表。
+
+### 流程图 (Flowchart)
+
+```mermaid
+graph TD;
+    A[开始] --> B{检查条件};
+    B -- Yes --> C[执行操作 A];
+    B -- No --> D[执行操作 B];
+    C --> E[结束];
+    D --> E;
+```
+
+### 序列图 (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+
+### 饼图 (Pie Chart)
+
+```mermaid
+pie
+    title 编程语言分布
+    "JavaScript" : 45
+    "Python" : 25
+    "Java" : 15
+    "C++" : 10
+    "Other" : 5
+```
+
+---
+
+## 10. 提示/警告块 (Admonitions/Alerts)
+
+这种语法在 GitHub、Docsify 和许多文档生成器中很流行。
+
+> [!NOTE]
+> 这是一个提示（Note）。用于引起注意的普通信息。
+
+> [!TIP]
+> 这是一个技巧（Tip）。用于提供有用的建议或快捷方式。
+
+> [!IMPORTANT]
+> 这是重要信息（Important）。需要用户特别关注的内容。
+
+> [!WARNING]
+> 这是一个警告（Warning）。用于提示潜在的风险或需要谨慎操作的地方。
+
+> [!CAUTION]
+> 这是一个危险警告（Caution）。表示执行此操作可能会导致严重后果。
+
+---
+
+## 11. 嵌入 HTML (Embedded HTML)
+
+测试是否允许在 Markdown 中直接嵌入 HTML 代码。
+
+### 可折叠内容
+
+使用 `<details>` 和 `<summary>` 标签来创建一个可折叠的内容区域。
+
+<details>
+  <summary>点击展开查看详细信息</summary>
+  <p>这里是隐藏的详细内容。可以包含段落、列表、甚至是图片。</p>
+</details>
+
+### 文本样式
+
+使用 HTML 标签来改变文本颜色：这段文字应该是 <span style="color: #007bff;">蓝色</span> 的，而这段是 <span style="color: #dc3545;">红色</span> 的。
+
 
 [^1]: 这是第一个脚注的解释文本。
 [^footnote2]: 这是第二个脚注的详细内容，可以很长。
