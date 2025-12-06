@@ -6,10 +6,6 @@ tags:
 abbrlink: "cheatsheet"
 ---
 
-这是一份用于测试您的博客或网站 Markdown 渲染效果的文档。如果所有内容都显示正常，那么您的 Markdown 解析器工作良好。
-
----
-
 ## 1. 标题 (Headers)
 
 # 一级标题 (H1)
@@ -125,13 +121,17 @@ npm run dev
 
 这是一个需要脚注的句子[^1]。这是另一个需要脚注的地方[^footnote2]。
 
-## 8. 数学公式 (KaTeX / MathJax)
+## 8. 数学公式 (KaTeX)
 
-测试您的环境是否支持 LaTeX 语法的数学公式渲染。
+HAKU 支持 LaTeX 语法的数学公式以及化学公式渲染。
 
 ### 行内公式
 
 质能方程是 $ E=mc^2 $。当 $ a \ne 0 $ 时，二次方程 $ ax^2 + bx + c = 0 $ 的解为 $ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $。
+
+```latex
+质能方程是 $ E=mc^2 $。当 $ a \ne 0 $ 时，二次方程 $ ax^2 + bx + c = 0 $ 的解为 $ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $。
+```
 
 ### 块级公式
 
@@ -145,6 +145,17 @@ $$
 \oint_C \mathbf{H} \cdot d\mathbf{l} = I_{in} + \frac{d\Phi_D}{dt}
 
 $$
+
+```latex
+$$
+
+\oint_S \mathbf{D} \cdot d\mathbf{a} = Q_{in} \\
+\oint_S \mathbf{B} \cdot d\mathbf{a} = 0 \\
+\oint_C \mathbf{E} \cdot d\mathbf{l} = - \frac{d\Phi_B}{dt} \\
+\oint_C \mathbf{H} \cdot d\mathbf{l} = I_{in} + \frac{d\Phi_D}{dt}
+
+$$
+```
 
 ---
 
@@ -211,6 +222,10 @@ pie
 
 > [!CAUTION]
 > 这是一个危险警告（Caution）。表示执行此操作可能会导致严重后果。
+
+:::note[自定义标题]
+这是一个自定义标题的提示块。
+:::
 
 ---
 

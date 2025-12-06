@@ -2,11 +2,12 @@
 import { defineConfig } from 'astro/config'
 import { base, themeConfig } from './src/config'
 import { remarkReadingTime } from './src/components/scripts/remark-readingtime.mjs';
+import { remarkContainerDirectives } from './src/components/scripts/remark-sp-containers.mjs';
 
 import rehypeKatex from 'rehype-katex';
-import remarkMath from 'remark-math'
+import remarkDirective from 'remark-directive';
+import remarkMath from 'remark-math';
 import remarkMermaid from 'remark-mermaidjs';
-import remarkGithubAlerts from 'remark-github-alerts';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -27,7 +28,8 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       remarkReadingTime,
-      remarkGithubAlerts,
+      remarkDirective,
+      remarkContainerDirectives,
       remarkMermaid,
       remarkMath,
     ],

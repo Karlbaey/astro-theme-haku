@@ -9,9 +9,13 @@
         "ignore": [
           "float: inline-start",
           "text-wrap",
-          "text-wrap: wrap"
+          "text-wrap: wrap",
+          "mask-image",
+          "scrollbar-width",
+          "scrollbar-width: none"
         ]
       }
-    ]
+    ],
+    "css-prefix-order": "off"
   }
 }
