@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar.astro";
 import themeConfig from "@/config";
 import "../styles/global.css";
 import "../styles/markdown.css";
-import "../styles/ext.css"
+import "../styles/ext.css";
+import ToggleButton from "@/components/ToggleButton.astro";
 
 interface Props {
   articleTitle?: string;
@@ -29,6 +30,9 @@ const { author } = themeConfig.site;
         <div class="lg:sticky lg:top-10">
           <Header />
           <Navbar />
+          <div class="mt-4">
+            <ToggleButton />
+          </div>
         </div>
       </aside>
 
@@ -46,9 +50,8 @@ const { author } = themeConfig.site;
         </div>
       </main>
     </div>
-  </body>
-  <script>
-    import mermaid from 'mermaid';
+  </body><script>
+    import mermaid from "mermaid";
     mermaid.initialize({ startOnLoad: true });
   </script>
 </html>

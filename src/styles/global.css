@@ -12,8 +12,14 @@
 }
 
 @theme {
-  --color-white: #ffffff;
-  --color-black: #000000;
+  --color-white: oklch(100% 0 0);
+  --color-black: oklch(0 0 0);
+
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-gray-900);
+  --color-primary: var(--color-black);
+  --color-border: var(--color-gray-200);
+  --color-code-bg: var(--color-gray-100);
 
   --color-gray-50: oklch(98.5% 0 0);
   --color-gray-100: oklch(95% 0 0);
@@ -32,11 +38,34 @@
   --color-green-500: initial;
   --color-yellow-500: initial;
 
-  --color-note: #3b82f6;
-  --color-tip: #22c55e;
-  --color-important: #8b5cf6;
-  --color-warning: #f97316;
-  --color-caution: #ef4444;
+  --color-note: oklch(50.574% 0.15687 253.882);
+  --color-tip: oklch(60.913% 0.13495 161.168);
+  --color-important: oklch(48.96% 0.26803 291.313);
+  --color-warning: oklch(70.843% 0.15033 73.676);
+  --color-caution: oklch(51.437% 0.1793 27.674);
+}
+
+.dark {
+  /* 夜间模式颜色定义 */
+  --color-background: var(--color-gray-950);
+  --color-foreground: var(--color-gray-100);
+  --color-primary: var(--color-gray-100);
+  --color-border: var(--color-gray-800);
+  --color-code-bg: var(--color-gray-900);
+}
+
+@variant dark {
+  --color-background: var(--color-gray-950);
+  --color-foreground: var(--color-gray-100);
+  --color-primary: var(--color-gray-100);
+  --color-border: var(--color-gray-800);
+  --color-code-bg: var(--color-gray-900);
+
+  --color-note: oklch(0.71 0.17 237.32);
+  --color-tip: oklch(0.72 0.19 163.23);
+  --color-important: oklch(0.77 0.21 70.08);
+  --color-warning: oklch(0.85 0.2 75.23);
+  --color-caution: oklch(0.7 0.25 27.33);
 }
 
 @layer base {
@@ -55,10 +84,6 @@
   h1 {
     font-size: 420%;
     font-weight: bolder;
-  }
-
-  h1:hover {
-    color: #339afa;
   }
 
   h2 {
@@ -80,53 +105,32 @@
 }
 
 @layer components {
-  .nav-container {
-    @apply w-full flex justify-between items-center;
-    max-width: 65ch;
-    padding: 1rem;
-  }
-
-  .content-wrapper {
-    width: 100%;
-    max-width: 65ch;
-    margin: auto;
-    padding: 0 1rem;
-  }
-
   .prose {
     @apply text-base leading-relaxed;
 
     & h1 {
-      @apply text-4xl mb-6 mt-8;
+      @apply text-4xl mb-6 mt-8 text-foreground;
     }
+
     & h2 {
-      @apply text-3xl mb-4 mt-6 border-b border-gray-200 pb-2;
+      @apply text-3xl mb-4 mt-6 border-b border-border pb-2 text-foreground;
     }
+
     & h3 {
-      @apply text-2xl mb-3 mt-5;
+      @apply text-2xl mb-3 mt-5 text-foreground;
     }
-    & p {
-      @apply my-5;
+
+    & blockquote {
+      @apply border-l-4 border-primary pl-4 italic text-gray-600 dark:text-gray-400 my-6;
     }
-    & ul {
-      @apply list-disc pl-6 my-5;
-    }
-    & ol {
-      @apply list-decimal pl-6 my-5;
-    }
-    & li {
-      @apply mb-2;
-    }
-    /* & blockquote {
-      @apply border-l-4 border-black pl-4 italic text-gray-600 my-6;
-    } */
 
     & pre {
-      @apply bg-gray-100 text-black p-4 rounded-md my-6 overflow-x-auto;
+      @apply bg-code-bg text-foreground p-4 rounded-md my-6 overflow-x-auto;
+      font-family: "Courier New", Courier, monospace;
     }
 
     & code {
-      @apply bg-gray-200 text-black px-1 py-0.5 rounded-sm;
+      @apply bg-code-bg text-foreground px-1 py-0.5 rounded-sm;
     }
 
     & pre code {
