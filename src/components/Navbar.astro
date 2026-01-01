@@ -8,10 +8,16 @@ const isTagActive = isTag
 const isAboutActive = isAbout
 
 function getNavItemClass(isActive: boolean) {
-  return isActive
-    ? 'highlight-static c-primary font-bold after:bottom-0.7em'
-    : 'highlight-hover transition-[colors,font-weight] after:bottom-0.7em hover:(c-primary font-bold)'
+  if (isActive) {
+    return 'highlight-static text-primary font-bold after:bottom-[0.7em] no-underline';
+  }
+  
+  const defaultClasses = 'highlight-hover text-gray-700 dark:text-gray-300 after:bottom-[0.7em] no-underline';
+  const hoverClasses = 'hover:text-primary hover:font-bold';
+
+  return [defaultClasses, hoverClasses].join(' ');
 }
+
 
 const navItems = [
   {
@@ -35,8 +41,8 @@ const navItems = [
 <nav
   aria-label="Site Navigation"
   class:list={[
-    'mb-10.5 text-2xl font-semibold leading-2.45em font-navbar',
-    'lg:(text-4 bottom-[min(9.04rem+3.85vw,12.5rem)]) cjk:tracking-wide',
+    'mb-10.5 text-2xl font-semibold leading-tight font-navbar',
+    'lg:text-2xl lg:bottom-3px tracking-wide',
     isArticle ? 'hidden lg:block' : '',
   ]}
 >

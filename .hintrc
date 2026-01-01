@@ -12,7 +12,8 @@
           "text-wrap: wrap",
           "mask-image",
           "scrollbar-width",
-          "scrollbar-width: none"
+          "scrollbar-width: none",
+          "color: oklch(0.2033 0 360)"
         ]
       }
     ],
