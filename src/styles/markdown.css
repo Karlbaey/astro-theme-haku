@@ -6,11 +6,13 @@
   --color-text-primary: #0a0a0a;
   --color-text-secondary: #52525b;
   --color-text-muted: #6b7280;
+  --color-text-paragraph: #52525b;
   --color-heading: #0a0a0a;
   --color-link: #0a0a0a;
   --color-link-hover: #1f2937;
   --color-anchor: #0a47c9;
   --color-blockquote: #0a0a0a;
+  --color-mermaid-bg: #b9b9b9;
 
   /* 背景颜色 */
   --color-bg-inline-code: #f1f3f5;
@@ -54,11 +56,13 @@ html.dark {
   --color-text-primary: #d5d5d6;
   --color-text-secondary: #a1a1aa;
   --color-text-muted: #9ca3af;
+  --color-text-paragraph: #c5c5c5;
   --color-heading: #d5d5d6;
   --color-link: #e5e7eb;
   --color-link-hover: #f3f4f6;
   --color-anchor: #4982ec;
   --color-blockquote: #d5d5d6;
+  --color-mermaid-bg: #7c7b7b;
 
   /* 背景颜色 */
   --color-bg-inline-code: #1e1e20;
@@ -83,7 +87,7 @@ html.dark {
 
 /* ===== 基础样式重置 ===== */
 .markdown {
-  color: var(--color-text-secondary);
+  color: var(--color-text-paragraph);
   font-size: 1rem;
   line-height: 1.75;
 
@@ -336,6 +340,10 @@ html.dark {
       &::after {
         content: none;
       }
+    }
+
+    &.mermaid {
+      background-color: var(--color-mermaid-bg);
     }
   }
 }
@@ -619,50 +627,6 @@ image-figure-polaroid {
 
 .callout-title-icon {
   padding-inline-end: 2px;
-}
-
-/* ExpressiveCode */
-.expressive-code {
-  margin-block: 1em;
-
-  & .copy button {
-    inline-size: 2rem !important;
-    block-size: 2rem !important;
-
-    &::before {
-      display: none;
-    }
-
-    &::after {
-      inline-size: 1rem !important;
-      block-size: 1rem !important;
-      opacity: 0.5 !important;
-    }
-
-    &:is(:hover, :active)::after {
-      opacity: 1 !important;
-    }
-  }
-
-  & .copy .feedback {
-    font-size: 14px;
-    border-width: 0;
-  }
-
-  & .ec-section summary {
-    & .code {
-      display: flex;
-      align-items: center;
-    }
-
-    & svg {
-      display: inline-block;
-    }
-  }
-
-  & .gutter .ln {
-    padding-inline: 1ch !important;
-  }
 }
 
 /* ===== 响应式设计 ===== */

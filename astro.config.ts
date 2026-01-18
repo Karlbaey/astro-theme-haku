@@ -5,9 +5,9 @@ import { remarkReadingTime } from './src/components/scripts/remark-readingtime.m
 import { remarkContainerDirectives } from './src/components/scripts/remark-sp-containers.mjs';
 
 import rehypeKatex from 'rehype-katex';
+import rehypeMermaid from 'rehype-mermaid';
 import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
-import remarkMermaid from 'remark-mermaidjs';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -30,13 +30,19 @@ export default defineConfig({
       remarkReadingTime,
       remarkDirective,
       remarkContainerDirectives,
-      remarkMermaid,
       remarkMath,
     ],
-
     rehypePlugins: [
+      [rehypeMermaid, { strategy: "pre-mermaid" }],
       rehypeKatex,
     ],
+    syntaxHighlight: {
+      type: 'shiki',
+      excludeLangs: ['mermaid']
+    },
+    shikiConfig: {
+      theme: "monokai"
+    }
   },
 
   integrations: [mdx()],

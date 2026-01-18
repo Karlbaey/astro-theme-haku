@@ -166,13 +166,11 @@ $$
 
 ### 流程图 (Flowchart)
 
+需要注意的是目前的流程图有 bug，过于复杂的图形会导致展示崩溃。这可能会在以后的版本修复。
+
 ```mermaid
-graph TD;
-    A[开始] --> B{检查条件};
-    B -- Yes --> C[执行操作 A];
-    B -- No --> D[执行操作 B];
-    C --> E[结束];
-    D --> E;
+flowchart LR;
+  a[A] --> b(B) --> c([C]) --> d{D};
 ```
 
 ### 序列图 (Sequence Diagram)
@@ -253,4 +251,5 @@ pie
 使用 HTML 标签来改变文本颜色：这段文字应该是 <span style="color: #007bff;">蓝色</span> 的，而这段是 <span style="color: #dc3545;">红色</span> 的。
 
 [^1]: 这是第一个脚注的解释文本。
+
 [^footnote2]: 这是第二个脚注的详细内容，可以很长。

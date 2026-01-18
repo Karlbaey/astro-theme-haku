@@ -3,6 +3,7 @@
 import Head from "@/layouts/Head.astro";
 import Header from "@/components/Header.astro";
 import Navbar from "@/components/Navbar.astro";
+import FixMermaid from "@/components/Widgets/FixMermaid.astro";
 import themeConfig from "@/config";
 import "../styles/global.css";
 import "../styles/markdown.css";
@@ -50,8 +51,5 @@ const { author } = themeConfig.site;
         </div>
       </main>
     </div>
-  </body><script>
-    import mermaid from "mermaid";
-    mermaid.initialize({ startOnLoad: true });
-  </script>
+  </body><FixMermaid />
 </html>
