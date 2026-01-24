@@ -170,7 +170,6 @@ HAKU 支持多种 mermaid 图表。
 这是一个极为复杂的流程图。
 
 ````text
-
 ```mermaid
 graph TB
     subgraph ClientLayer [客户端层]
@@ -221,7 +220,6 @@ graph TB
     style Services fill:#e1f5fe,stroke:#0277bd
     style DataLayer fill:#fff3e0,stroke:#ff6f00
 ```
-
 ````
 
 ```mermaid
@@ -310,7 +308,6 @@ sequenceDiagram
 ### 饼图
 
 ````text
-
 ```mermaid
 pie
     title 编程语言分布
@@ -335,7 +332,6 @@ pie
 ### 甘特图
 
 ````text
-
 ```mermaid
 gantt
     title 2024年 SaaS 平台研发路线图
@@ -365,6 +361,7 @@ gantt
     Docker 容器化  :         ops2, after ops1, 5d
     灰度发布       :milestone, 2024-03-01, 0d
     正式上线       :crit, 2024-03-10, 0d
+```
 ````
 
 ```mermaid
