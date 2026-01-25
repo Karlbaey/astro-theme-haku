@@ -21,7 +21,9 @@
   svg[id^="mermaid-"] {
     @apply bg-white dark:bg-gray-500 rounded-lg p-4 mx-auto block min-w-min;
   }
+}
 
+@layer components {
   .article-meta {
     @apply flex items-center gap-6 text-sm mt-2 mb-8 text-shadow-zinc-800 dark:text-zinc-400 italic;
   }
