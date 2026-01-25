@@ -5,7 +5,7 @@ export const themeConfig: ThemeConfig = {
     title: 'HAKU',
     subtitle: 'A simple astro theme',
     description: 'A demo',
-    author: 'Jerry Karlbaey',
+    author: 'Hakubot',
     base: '/',
     url: 'https://haku.karlbaey.top',
     favicon: '/favicon.png'

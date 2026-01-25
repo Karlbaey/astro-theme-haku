@@ -10,13 +10,14 @@ import "../styles/ext.css";
 import ToggleButton from "@/components/ToggleButton.astro";
 
 interface Props {
+  publishedDate?: string;
   articleTitle?: string;
   articleDescription?: string;
   articleSlug?: string;
   supportedLangs?: string[];
 }
 
-const { articleTitle, articleDescription } = Astro.props;
+const { publishedDate, articleTitle, articleDescription } = Astro.props;
 const { author } = themeConfig.site;
 ---
 
@@ -39,10 +40,12 @@ const { author } = themeConfig.site;
 
       <main class="py-8">
         <div class="content-wrapper">
-          <article class="markdown">
-            <slot />
+          <article>
+            <div class="markdown">
+              <slot />
+            </div>
           </article>
-          <footer class="mt-12 pt-8 border-t border-gray-200">
+          <footer>
             <p>
               &copy; {new Date().getFullYear()}
               {author} - All rights reserved. Released under <a
