@@ -10,7 +10,9 @@
 
 @layer base {
   :root {
-    font-family: "Noto Serif SC", serif, "Noto Sans SC", sans-serif;
+    --site-font: "Noto Serif SC", serif, "Noto Sans SC", sans-serif;
+
+    font-family: var(--site-font);
     overflow-y: scroll;
   }
 
