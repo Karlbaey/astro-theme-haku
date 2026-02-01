@@ -34,16 +34,14 @@ const { author } = themeConfig.site;
         <div class="lg:sticky lg:top-10 wrap-break-word">
           <Header />
           <Navbar />
-          <div class="mt-4">
+          <div class="flex mt-4 items-center gap-x-4">
             <ToggleButton />
+            <SearchButton />
           </div>
         </div>
       </aside>
 
       <main class="py-8 relative">
-        <div class="absolute right-0">
-          <SearchButton />
-        </div>
         <article>
           <div class="markdown">
             <slot />

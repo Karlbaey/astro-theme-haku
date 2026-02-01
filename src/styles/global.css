@@ -26,6 +26,10 @@
 }
 
 @layer components {
+  .article-title {
+    @apply break-all pr-8;
+  }
+
   .article-meta {
     @apply flex items-center gap-6 text-sm mt-2 mb-8 text-shadow-zinc-800 dark:text-zinc-400 italic;
   }

@@ -51,35 +51,33 @@ const { Content, headings, remarkPluginFrontmatter } = await render(article);
 ---
 
 <Layout articleTitle={article.data.title} articleSlug={article.id}>
-  <article class="heti">
-    <div class="relative">
-      <!-- <BackButton /> -->
-      <!-- Title -->
-      <h1 class="article-title">
-        <span transition:name={`article-${slug}`} data-disable-theme-transition>
-          {article.data.title}
-        </span>
-      </h1>
-    </div>
-    <ArticleMeta author={author} publishDate={article.data.published} />
-    <!-- TOC -->
-    <!-- {article.data.toc && <TOC headings={headings} />} -->
-    <!-- Content -->
-    <div id="article-content">
-      <Content />
-      <!-- Copyright -->
-      <div id="article-copyright"></div>
-      <!-- Tag List -->
-      {
-        article.data.tags?.length > 0 && (
-          <div class="mt-12.6 uno-decorative-line" />
-          // <TagList
-          //   tags={article.data.tags}
-          // />
-        )
-      }
-      <!-- Comment -->
-      <!-- <Comment /> -->
-    </div>
-  </article>
+  <div class="relative">
+    <!-- <BackButton /> -->
+    <!-- Title -->
+    <h1 class="article-title">
+      <span transition:name={`article-${slug}`} data-disable-theme-transition>
+        {article.data.title}
+      </span>
+    </h1>
+  </div>
+  <ArticleMeta author={author} publishDate={article.data.published} />
+  <!-- TOC -->
+  <!-- {article.data.toc && <TOC headings={headings} />} -->
+  <!-- Content -->
+  <div id="article-content">
+    <Content />
+    <!-- Copyright -->
+    <div id="article-copyright"></div>
+    <!-- Tag List -->
+    {
+      article.data.tags?.length > 0 && (
+        <div class="mt-12.6 uno-decorative-line" />
+        // <TagList
+        //   tags={article.data.tags}
+        // />
+      )
+    }
+    <!-- Comment -->
+    <!-- <Comment /> -->
+  </div>
 </Layout>
