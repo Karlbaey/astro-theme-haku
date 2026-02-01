@@ -9,6 +9,7 @@ import "../styles/markdown.css";
 import "../styles/ext.css";
 import ToggleButton from "@/components/ToggleButton.astro";
 import CodeCopyButton from "@/components/CodeCopyButton.astro";
+import SearchButton from "@/components/SearchButton.astro";
 
 interface Props {
   publishedDate?: string;
@@ -39,24 +40,25 @@ const { author } = themeConfig.site;
         </div>
       </aside>
 
-      <main class="py-8">
-        <div class="content-wrapper">
-          <article>
-            <div class="markdown">
-              <slot />
-              <CodeCopyButton />
-            </div>
-            <footer>
-              <p>
-                &copy; {new Date().getFullYear()}
-                {author} - All rights reserved. Released under <a
-                  href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-                  rel="canonical">CC BY-NC-SA 4.0</a
-                >.
-              </p>
-            </footer>
-          </article>
+      <main class="py-8 relative">
+        <div class="absolute right-0">
+          <SearchButton />
         </div>
+        <article>
+          <div class="markdown">
+            <slot />
+            <CodeCopyButton />
+          </div>
+          <footer>
+            <p>
+              &copy; {new Date().getFullYear()}
+              {author} - All rights reserved. Released under <a
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                rel="canonical">CC BY-NC-SA 4.0</a
+              >.
+            </p>
+          </footer>
+        </article>
       </main>
     </div>
   </body>
