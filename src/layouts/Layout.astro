@@ -9,6 +9,7 @@ import "../styles/markdown.css";
 import "../styles/ext.css";
 import ToggleButton from "@/components/ToggleButton.astro";
 import CodeCopyButton from "@/components/CodeCopyButton.astro";
+import SearchButton from "@/components/SearchButton.astro";
 
 interface Props {
   publishedDate?: string;
@@ -33,30 +34,29 @@ const { author } = themeConfig.site;
         <div class="lg:sticky lg:top-10 wrap-break-word">
           <Header />
           <Navbar />
-          <div class="mt-4">
+          <div class="flex mt-4 items-center gap-x-4">
             <ToggleButton />
+            <SearchButton />
           </div>
         </div>
       </aside>
 
-      <main class="py-8">
-        <div class="content-wrapper">
-          <article>
-            <div class="markdown">
-              <slot />
-              <CodeCopyButton />
-            </div>
-            <footer>
-              <p>
-                &copy; {new Date().getFullYear()}
-                {author} - All rights reserved. Released under <a
-                  href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-                  rel="canonical">CC BY-NC-SA 4.0</a
-                >.
-              </p>
-            </footer>
-          </article>
-        </div>
+      <main class="py-8 relative">
+        <article>
+          <div class="markdown">
+            <slot />
+            <CodeCopyButton />
+          </div>
+          <footer>
+            <p>
+              &copy; {new Date().getFullYear()}
+              {author} - All rights reserved. Released under <a
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                rel="canonical">CC BY-NC-SA 4.0</a
+              >.
+            </p>
+          </footer>
+        </article>
       </main>
     </div>
   </body>
