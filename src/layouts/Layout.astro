@@ -2,13 +2,11 @@
 // src/layout/Layout.astro
 import Head from "@/layouts/Head.astro";
 import Navbar from "@/components/Navbar.astro";
-import themeConfig from "@/config";
+import Footer from "@/layouts/Footer.astro";
 import "../styles/global.css";
 import "../styles/markdown.css";
 import "../styles/ext.css";
-import ToggleButton from "@/components/ToggleButton.astro";
 import CodeCopyButton from "@/components/CodeCopyButton.astro";
-import SearchButton from "@/components/SearchButton.astro";
 
 interface Props {
   publishedDate?: string;
@@ -19,39 +17,23 @@ interface Props {
 }
 
 const { articleTitle, articleDescription } = Astro.props;
-const { author } = themeConfig.site;
 ---
 
 <!doctype html>
 <html lang="zh-cn">
   <Head articleTitle={articleTitle} articleDescription={articleDescription} />
   <body>
-    <div class="min-h-screen">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Navbar />
-      </div>
-      <div class="flex mt-4 items-center gap-x-4">
-        <ToggleButton />
-        <SearchButton />
-      </div>
-
+    <div class="min-h-screen max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Navbar />
       <main class="py-8 relative">
         <article>
           <div class="markdown">
             <slot />
             <CodeCopyButton />
           </div>
-          <footer>
-            <p>
-              &copy; {new Date().getFullYear()}
-              {author} - All rights reserved. Released under <a
-                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-                rel="canonical">CC BY-NC-SA 4.0</a
-              >.
-            </p>
-          </footer>
         </article>
       </main>
+      <Footer />
     </div>
   </body>
 </html>
