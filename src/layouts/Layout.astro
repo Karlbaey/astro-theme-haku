@@ -1,7 +1,6 @@
 ---
 // src/layout/Layout.astro
 import Head from "@/layouts/Head.astro";
-import Header from "@/components/Header.astro";
 import Navbar from "@/components/Navbar.astro";
 import themeConfig from "@/config";
 import "../styles/global.css";
@@ -27,19 +26,14 @@ const { author } = themeConfig.site;
 <html lang="zh-cn">
   <Head articleTitle={articleTitle} articleDescription={articleDescription} />
   <body>
-    <div
-      class="max-w-360 mx-auto min-h-screen px-6 lg:grid lg:grid-cols-[320px_1fr] lg:gap-x-16"
-    >
-      <aside class="min-w-0">
-        <div class="lg:sticky lg:top-10 wrap-break-word">
-          <Header />
-          <Navbar />
-          <div class="flex mt-4 items-center gap-x-4">
-            <ToggleButton />
-            <SearchButton />
-          </div>
-        </div>
-      </aside>
+    <div class="min-h-screen">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Navbar />
+      </div>
+      <div class="flex mt-4 items-center gap-x-4">
+        <ToggleButton />
+        <SearchButton />
+      </div>
 
       <main class="py-8 relative">
         <article>
