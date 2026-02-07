@@ -2,10 +2,10 @@
 // src/pages/index.astro
 import { getEntry } from "astro:content";
 import { lang } from "@/config";
-import { getPinnedArticles, getArticlesByYear } from "@/utils/content";
+import { getArticles } from "@/utils/content";
 import Layout from "../layouts/Layout.astro";
 import Division from "@/components/styles/Division.astro";
-import AllArticles from "@/components/AllArticles.astro";
+import LatestArticles from "@/components/LatestArticles.astro";
 
 export async function getStaticPaths() {
   type PathItem = {
@@ -15,7 +15,6 @@ export async function getStaticPaths() {
 
   const paths: PathItem[] = [];
 
-  // Default locale
   paths.push({
     params: { index: undefined },
     props: { language: lang },
@@ -31,31 +30,27 @@ if (!entry) {
 }
 const { Content } = entry ? await entry.render() : { Content: null };
 
-const pinnedPosts = await getPinnedArticles();
-const articlesByYear = await getArticlesByYear();
+const allArticles = await getArticles();
 ---
 
 <Layout articleTitle={entry.data.title}>
-  <div class="markdown readme-page">
+  <!-- <div class="markdown"> -->
+  <div class="markdown max-w-3xl px-4 mx-auto mb-6">
     <h1>{entry.data.title}</h1>
     <h2>{entry.data.subtitle}</h2>
     {Content && <Content />}
   </div>
   <Division />
+  <div class="readme-page">
+    <p>
+      最近更新的文章，来看看？<a href="/articles/" rel="noopener"
+        >所有文章的归档→</a
+      >
+    </p>
+  </div>
   <div class="list-page">
-    {
-      pinnedPosts.length > 0 && (
-        <section class="mb-7.5">
-          <AllArticles articles={pinnedPosts} lang={lang} pinned={true} />
-        </section>
-      )
-    }
-    {
-      [...articlesByYear.entries()].map(([_year, articles]) => (
-        <section class="mb-7.5">
-          <AllArticles articles={articles} lang={lang} />
-        </section>
-      ))
-    }
+    <section class="mb-7.5">
+      <LatestArticles articles={allArticles} lang={lang} />
+    </section>
   </div>
 </Layout>
