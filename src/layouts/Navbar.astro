@@ -5,9 +5,9 @@ import SearchButton from "@/components/SearchButton.astro";
 import ToggleButton from "@/components/ToggleButton.astro";
 import Division from "@/components/styles/Division.astro";
 
-const { isHome, isArticle, isTag } = getPageInfo(Astro.url.pathname);
+const { isArticle, isTag } = getPageInfo(Astro.url.pathname);
 
-const isArticleActive = isArticle || isHome;
+const isArticleActive = isArticle;
 const isTagActive = isTag;
 
 function getNavItemClass(isActive: boolean) {
@@ -19,7 +19,7 @@ function getNavItemClass(isActive: boolean) {
 
 const navItems = [
   {
-    href: "/",
+    href: "/articles/",
     label: "随笔",
     className: getNavItemClass(isArticleActive),
   },
