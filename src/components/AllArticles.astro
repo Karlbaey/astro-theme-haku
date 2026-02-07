@@ -52,7 +52,7 @@ const isHome = isHomePage(Astro.url.pathname);
           </div>
 
           {isHome && (
-            <div class="heti mt-2 block lg:mt-3">
+            <div class="mt-2 block lg:mt-3">
               <p>{getArticleDescription(article, "list")}</p>
             </div>
           )}
@@ -66,5 +66,9 @@ const isHome = isHomePage(Astro.url.pathname);
   .article-items a {
     color: var(--color-text-primary);
     text-decoration: none;
+  }
+
+  li::before {
+    display: none;
   }
 </style>

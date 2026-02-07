@@ -35,5 +35,13 @@ const about = defineCollection({
     }),
 });
 
+const main_page = defineCollection({
+    type: 'content',
+    schema: z.object({
+        title: z.string(),
+        subtitle: z.string(),
+    })
+})
 
-export const collections = { articles, 'about': about }
+
+export const collections = { articles, about, main_page }
