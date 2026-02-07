@@ -27,14 +27,6 @@ const articles = defineCollection({
     }),
 })
 
-const about = defineCollection({
-    type: 'content',
-    schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-    }),
-});
-
 const main_page = defineCollection({
     type: 'content',
     schema: z.object({
@@ -44,4 +36,4 @@ const main_page = defineCollection({
 })
 
 
-export const collections = { articles, about, main_page }
+export const collections = { articles, main_page }
