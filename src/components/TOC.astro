@@ -75,6 +75,10 @@ const filteredHeadings = headings.filter(
           activeLink.classList.add("active");
           // 激活父级 li 以改变边框颜色
           activeLink.parentElement?.classList.add("active");
+          activeLink.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
         }
       }
     });
