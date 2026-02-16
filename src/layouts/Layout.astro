@@ -7,6 +7,7 @@ import CodeCopyButton from "@/components/CodeCopyButton.astro";
 import "../styles/global.css";
 import "../styles/markdown.css";
 import "../styles/ext.css";
+import ScrollToTop from "@/components/ScrollToTop.astro";
 
 interface Props {
   publishedDate?: string;
@@ -32,6 +33,7 @@ const { articleTitle, articleDescription } = Astro.props;
         </article>
       </main>
     </div>
+    <ScrollToTop />
     <Footer />
   </body>
 </html>

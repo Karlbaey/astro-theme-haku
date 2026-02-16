@@ -1,0 +1,68 @@
+---
+import Top from "@/assets/top.svg";
+---
+
+<button
+  id="scroll-to-top-btn"
+  aria-label="回到顶部"
+  class="fixed bottom-4 right-4 z-50 hidden opacity-0 translate-y-4 transition-all duration-300 hover:scale-110 md:bottom-8"
+>
+  <div
+    class="bg-(--top-btn-color) bg-primary/90 hover:bg-primary p-3 rounded-full border border-white/20 shadow-lg"
+  >
+    <Top class="w-2.5 h-2.5 md:w-5 md:h-5" fill="currentColor" />
+  </div>
+</button>
+
+<script>
+  const scrollBtn = document.getElementById("scroll-to-top-btn");
+  if (scrollBtn) {
+    const handleScroll = () => {
+      // 当滚动超过 300px 时显示按钮
+      if (window.scrollY > 300) {
+        scrollBtn.classList.remove("hidden", "opacity-0", "translate-y-4");
+        scrollBtn.classList.add("flex", "opacity-100", "translate-y-0");
+      } else {
+        scrollBtn.classList.add("opacity-0", "translate-y-4");
+        scrollBtn.classList.remove("flex", "opacity-100", "translate-y-0");
+        setTimeout(() => {
+          if (window.scrollY <= 300) {
+            scrollBtn.classList.add("hidden");
+          }
+        }, 300);
+      }
+    };
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+    window.addEventListener("scroll", handleScroll);
+    scrollBtn.addEventListener("click", scrollToTop);
+  }
+</script>
+
+<style>
+  :root {
+    --top-btn-color: #e2e2e2;
+    /* 定义 main 标签内容的最大宽度 */
+    /* 这里的 50rem (800px) 需根据 layout 或 markdown.css 中的 max-w 进行调整 */
+    --content-width: 50rem;
+    /* 按钮距离内容的间距 */
+    --btn-gap: 1rem;
+  }
+  html.dark {
+    --top-btn-color: #424242;
+  }
+
+  /* 大屏幕定位逻辑：基于中心向右偏移 */
+  @media (min-width: 768px) {
+    #scroll-to-top-btn {
+      right: auto; /* 取消默认的 right 定位 */
+      left: 50%; /* 从屏幕正中间开始 */
+      /* 计算公式：偏移量 = 内容宽度的一半 + 间距 */
+      margin-left: calc(var(--content-width) / 2 + var(--btn-gap));
+    }
+  }
+</style>
