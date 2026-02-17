@@ -12,7 +12,7 @@ const tags = article.data.tags || [];
 
 {
   tags.length > 0 && (
-    <div class="article-tags flex flex-wrap gap-x-2 gap-y-1">
+    <div class="tags flex flex-wrap gap-x-2 gap-y-1">
       {tags.map((tag) => (
         <a href={`/tags/${tag}/`} class="text-sm">
           &nbsp;#&nbsp;{tag}&nbsp;
@@ -21,27 +21,3 @@ const tags = article.data.tags || [];
     </div>
   )
 }
-
-<style>
-  :root {
-    --color-tag: #0a0a0a;
-    --color-tag-bg: #dfdfdf;
-    --color-tag-bg-hover: #a8a8a8;
-  }
-
-  html.dark {
-    --color-tag: #dbdbdb;
-    --color-tag-bg: #2b2b2b;
-    --color-tag-bg-hover: #666666;
-  }
-
-  .article-tags a {
-    border: none;
-    color: var(--color-tag);
-    background-color: var(--color-tag-bg);
-  }
-
-  .article-tags a:hover {
-    background-color: var(--color-tag-bg-hover);
-  }
-</style>
