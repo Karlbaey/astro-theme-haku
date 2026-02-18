@@ -8,6 +8,6 @@ const tags = [
 ];
 ---
 
-<div class="w-3xl mb-6 tags flex flex-wrap gap-x-2 gap-y-1">
+<div class="max-w-screen w-3xl px-3 mb-6 tags flex flex-wrap gap-x-2 gap-y-1">
   {tags.map((tag) => <a href={`/tags/${tag}/`}>&nbsp;&nbsp;# {tag}&nbsp;</a>)}
 </div>

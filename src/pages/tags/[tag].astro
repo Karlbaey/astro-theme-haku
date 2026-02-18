@@ -33,7 +33,7 @@ const { articles = [] } = Astro.props;
 
 <Layout articleTitle=`包含标签“${tag}”的页面`>
   <AllTags />
-  <div class="w-3xl tag-articles">
+  <div class="max-w-screen w-3xl px-3 tag-articles">
     <h1 class="text-[2.5em] font-bold mb-8">
       包含标签“{tag}”的页面
     </h1>
