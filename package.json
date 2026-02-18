@@ -32,6 +32,10 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
-    "playwright": "^1.58.2"
+    "cac": "^6.7.14",
+    "date-fns": "^4.1.0",
+    "picocolors": "^1.1.1",
+    "playwright": "^1.58.2",
+    "prompts": "^2.4.2"
   }
 }
