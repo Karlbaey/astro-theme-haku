@@ -22,6 +22,19 @@ const pageDescription = articleDescription || siteDescription;
 ---
 
 <head>
+  <script is:inline>
+    (function () {
+      const theme = localStorage.getItem("theme");
+      const systemDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      if (theme === "dark" || (!theme && systemDark)) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    })();
+  </script>
   <!-- Basic info -->
   <meta charset="utf-8" />
   <meta

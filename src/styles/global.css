@@ -22,6 +22,7 @@
     --color-bg: #ffffff;
 
     font-family: var(--haku-font);
+    font-display: swap;
     overflow-y: scroll;
 
     color-scheme: light;
