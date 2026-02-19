@@ -31,7 +31,7 @@
     "rehype-mermaid": "^3.0.0",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "^4.2.0",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
