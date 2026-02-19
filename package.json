@@ -15,7 +15,7 @@
     "@astrojs/mdx": "^4.3.13",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.1.17",
+    "@tailwindcss/vite": "^4.2.0",
     "astro": "^5.17.2",
     "astro-compressor": "^1.2.0",
     "katex": "^0.16.28",
