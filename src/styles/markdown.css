@@ -658,11 +658,6 @@ image-figure-polaroid {
       font-size: 0.875em;
     }
 
-    /* & blockquote {
-      margin-block: 1.25em;
-      padding-inline-start: 0.875em;
-    } */
-
     & :is(img, video) {
       margin-block: 1.5em;
     }

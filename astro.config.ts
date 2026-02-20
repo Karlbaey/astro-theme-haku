@@ -6,6 +6,7 @@ import { remarkContainerDirectives } from './src/components/scripts/remark-sp-co
 
 import rehypeKatex from 'rehype-katex';
 import rehypeMermaid from 'rehype-mermaid';
+import rehypePrettyCode, { type LineElement } from 'rehype-pretty-code';
 import remarkDirective from 'remark-directive';
 import remarkMath from 'remark-math';
 
@@ -43,14 +44,15 @@ export default defineConfig({
         }
       }],
       rehypeKatex,
+      [rehypePrettyCode, {
+        theme: 'monokai', keepBackground: true, onVisitLine(node: LineElement) {
+          if (node.children.length === 0) {
+            node.children = [{ type: 'text', value: ' ' }];
+          }
+        }
+      }]
     ],
-    syntaxHighlight: {
-      type: 'shiki',
-      excludeLangs: ['mermaid']
-    },
-    shikiConfig: {
-      theme: "monokai"
-    }
+    syntaxHighlight: false,
   },
 
   integrations: [mdx(), Compressor({

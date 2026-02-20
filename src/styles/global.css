@@ -19,11 +19,12 @@
     --color-tag-bg-hover: #a8a8a8;
     --color-tag-title: #0a0a0a;
     --color-tag-text: #202020;
-    --color-bg: #ffffff;
+    --color-bg: #f2f1f5;
 
     font-family: var(--haku-font);
     font-display: swap;
     overflow-y: scroll;
+    min-height: max-content;
 
     color-scheme: light;
     background-color: var(--color-bg);
@@ -45,21 +46,34 @@
   }
 
   footer {
-    @apply mt-6 pt-4;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
   }
 
   svg[id^="mermaid-"] {
-    @apply bg-white dark:bg-gray-500 rounded-lg p-4 mx-auto block min-w-min;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    margin-inline: auto;
+    padding: 1rem;
+    display: block;
+    min-width: min-content;
+
+    &:where(.dark, .dark *) {
+      background-color: #6a7282;
+    }
   }
 }
 
-@layer components {
+@layer utilities {
   .readme-page {
-    @apply max-w-3xl px-4 mx-auto mb-6;
+    max-width: 48rem;
+    padding-inline: 1rem;
+    margin-inline-start: auto;
+    margin-bottom: 1.5rem;
     color: var(--color-readme);
 
     p {
-      @apply mt-4;
+      margin-top: 1rem;
     }
 
     a {
@@ -72,73 +86,112 @@
   }
 
   .list-page {
-    @apply mx-4 mt-6;
+    margin-inline: 1rem;
+    margin-top: 1.5rem;
     color: var(--color-readme);
   }
 }
 
-@layer components {
+@layer utilities {
   .article-title {
-    @apply break-all pr-8;
+    word-break: break-all;
+    padding-right: 2rem;
   }
 
   .article-meta {
-    @apply flex items-center gap-6 text-sm mt-2 mb-8 text-shadow-zinc-800 dark:text-zinc-400 italic;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.428571;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+
+    &:where(.dark, .dark *) {
+      color: #9f9fa9;
+    }
   }
 
   .meta-item {
-    @apply gap-1.5 flex items-center;
+    gap: 0.25rem;
+    display: flex;
+    align-items: center;
     & .icon {
-      @apply max-w-full max-h-full;
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 
   .icon {
-    @apply inline-flex items-center w-5 h-5;
+    display: inline-flex;
+    align-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
-@layer components {
+@layer utilities {
   .code-block-wrapper {
-    @apply relative mb-4 mt-4;
+    position: relative;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 
   .copy-code-btn {
-    @apply absolute top-2 right-2 z-20;
-    @apply flex justify-center items-center;
-    @apply w-8 h-8 p-0;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 20;
 
-    @apply text-sm text-slate-400;
-    @apply bg-slate-800/60;
-    @apply border border-white/10 rounded-md;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
 
-    @apply cursor-pointer opacity-0 transition-all duration-200;
-    @apply select-none;
+    font-size: 14px;
+    line-height: 1.428571;
+    color: #90a1b9;
+    background-color: #1d293d 60% transparent;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ffffff1a;
+    border-radius: 6px;
+
+    cursor: pointer;
+    opacity: 0%;
+    transition-property: all;
+    transition-duration: 200ms;
+    -webkit-user-select: none;
+    user-select: none;
 
     &:hover {
-      @apply bg-slate-800 text-slate-100;
+      background-color: #1d293d;
+      color: #f1f5f9;
     }
 
     &.success {
-      @apply bg-emerald-600 text-white;
+      background-color: #009966;
+      color: #ffffff;
     }
   }
 
   .code-block-wrapper:hover .copy-code-btn {
-    @apply opacity-100;
+    opacity: 100%;
   }
 
   @media (hover: none) {
     .copy-code-btn {
-      @apply opacity-100;
+      opacity: 100%;
     }
   }
 }
 
-@layer components {
+@layer utilities {
   .tags a {
     border: none;
-    color: var(--color-tag) !important;
+    color: var(--color-tag);
     background-color: var(--color-tag-bg);
   }
 
@@ -151,5 +204,12 @@
       color: var(--color-tag-title);
     }
     color: var(--color-tag-text);
+  }
+}
+
+@layer component {
+  figure[data-rehype-pretty-code-figure] {
+    margin-bottom: 1.5rem;
+    border-radius: 0.5rem;
   }
 }

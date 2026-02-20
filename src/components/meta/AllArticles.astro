@@ -17,19 +17,16 @@ const { articles, lang, pinned = false } = Astro.props;
 const isArticle = isArticlePage(Astro.url.pathname);
 ---
 
-<ul class="article-items">
+<ul>
   {
     articles.map((article) => {
       const slug = article.data.permalink || article.id;
 
       return (
-        <li class:list={["mx-auto mb-6", isArticle ? "lg:mb-10" : ""]}>
+        <li class="mx-auto mb-6 before:hidden lg:mb-10">
           <h3 class="inline transition-colors">
             <a
-              class:list={[
-                "tracking-wide",
-                isArticle ? "lg:font-medium lg:text-lg" : "",
-              ]}
+              class="tracking-wide font-semibold lg:text-lg"
               href={getArticlePath(slug)}
               transition:name={`article-${slug}${lang ? `-${lang}` : ""}`}
               data-disable-theme-transition
@@ -39,7 +36,7 @@ const isArticle = isArticlePage(Astro.url.pathname);
             {pinned && (
               <Pin
                 aria-hidden="true"
-                class="ml-[0.25em] inline-block aspect-square w-[0.98em] lg:w-[1.05em]"
+                class="ml-1 mb-1 inline-block aspect-square"
                 fill="currentColor"
               />
             )}
@@ -55,23 +52,12 @@ const isArticle = isArticlePage(Astro.url.pathname);
           <ArticleTags article={article} />
 
           {isArticle && (
-            <div class="mt-2 block lg:mt-3">
-              <p>{getArticleDescription(article, "list")}</p>
-            </div>
+            <p class="mt-2 block ml-2 lg:mt-3">
+              {getArticleDescription(article, "list")}
+            </p>
           )}
         </li>
       );
     })
   }
 </ul>
-
-<style>
-  .article-items a {
-    color: var(--color-text-primary);
-    text-decoration: none;
-  }
-
-  li::before {
-    display: none;
-  }
-</style>
