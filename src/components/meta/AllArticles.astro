@@ -17,45 +17,62 @@ const { articles, lang, pinned = false } = Astro.props;
 const isArticle = isArticlePage(Astro.url.pathname);
 ---
 
-<ul>
+<ul class="grid gap-4 lg:gap-6">
   {
     articles.map((article) => {
       const slug = article.data.permalink || article.id;
 
       return (
-        <li class="mx-auto mb-6 before:hidden lg:mb-10">
-          <h3 class="inline transition-colors">
+        <li class="group relative flex flex-col rounded-2xl border border-black/5 bg-white/50 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:border-white/10 dark:bg-white/5 lg:p-6">
+          <div class="absolute right-4 top-4 opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100 lg:right-6 lg:top-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M17.92 6.62a1 1 0 0 0-.54-.54A1 1 0 0 0 17 6H7a1 1 0 0 0 0 2h7.59l-8.3 8.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L16 9.41V17a1 1 0 0 0 2 0V7a1 1 0 0 0-.08-.38"
+              />
+            </svg>
+          </div>
+          {/* 标题 - 改用 var(--color-text-primary) 强制跟随主题 */}
+          <h3 class="mb-2 text-lg font-bold tracking-wide lg:text-xl pr-8 text-(--color-text-primary)">
             <a
-              class="tracking-wide font-semibold lg:text-lg"
               href={getArticlePath(slug)}
               transition:name={`article-${slug}${lang ? `-${lang}` : ""}`}
               data-disable-theme-transition
+              class="before:absolute before:inset-0"
             >
               {article.data.title}
             </a>
             {pinned && (
               <Pin
                 aria-hidden="true"
-                class="ml-1 mb-1 inline-block aspect-square"
+                class="ml-1 mb-1 inline-block aspect-square h-5 w-5 text-red-500"
                 fill="currentColor"
               />
             )}
           </h3>
-
-          <div class="block mt-1 text-sm font-time lg:ml-2.5 lg:inline lg:mt-0">
+          {/* 日期 - 改用 var(--color-text-secondary) */}
+          <div class="mb-3 text-sm text-(--color-text-secondary)">
             <ArticleDate
               date={article.data.published}
               minutes={article.remarkPluginFrontmatter.minutes}
             />
           </div>
 
-          <ArticleTags article={article} />
-
+          {/* 简介 - 改用 var(--color-text-paragraph) 或 secondary */}
           {isArticle && (
-            <p class="mt-2 block ml-2 lg:mt-3">
+            <p class="mb-4 line-clamp-3 text-sm text-(--color-text-paragraph) lg:text-base">
               {getArticleDescription(article, "list")}
             </p>
           )}
+
+          <div class="relative z-10 mt-auto">
+            <ArticleTags article={article} />
+          </div>
         </li>
       );
     })
