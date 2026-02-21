@@ -68,7 +68,7 @@
   .readme-page {
     max-width: 48rem;
     padding-inline: 1rem;
-    margin-inline-start: auto;
+    margin-inline: auto;
     margin-bottom: 1.5rem;
     color: var(--color-readme);
 
@@ -134,7 +134,8 @@
   .code-block-wrapper {
     position: relative;
     margin-bottom: 1rem;
-    margin-top: 1rem;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .copy-code-btn {
@@ -191,7 +192,7 @@
 @layer utilities {
   .tags a {
     border: none;
-    color: var(--color-tag);
+    color: var(--color-tag) !important;
     background-color: var(--color-tag-bg);
   }
 
@@ -208,8 +209,4 @@
 }
 
 @layer component {
-  figure[data-rehype-pretty-code-figure] {
-    margin-bottom: 1.5rem;
-    border-radius: 0.5rem;
-  }
 }
