@@ -75,7 +75,24 @@ _这也是斜体文本_
 
 这是一个行内代码块：`console.log('Hello, World!');`
 
-这是一个带有语法高亮的 Python 代码块：
+代码块的顶端会展示文件名，右上角会展示语言。文件名是可选的，在书写代码块时，在语言右侧空一格加入 `title` 标记即可。
+
+注意如果不写文件名，那么代码语言也不会显示。
+
+````markdown
+```python title="hello.py"
+import antigravity
+
+def greet(name):
+    """这是一个向世界问好的函数"""
+    print(f"Hello, {name}!")
+
+if __name__ == "__main__":
+    greet("Markdown")
+```
+````
+
+效果如下，这是一个带有语法高亮的 Python 代码块：
 
 ```python title="hello.py"
 import antigravity

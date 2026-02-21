@@ -357,7 +357,7 @@ html.dark {
     background-color: #ffffff14;
     color: #e6e6e6;
     padding: 0.5rem 1rem;
-    padding-right: 4rem;
+    padding-right: 9rem;
     font-size: 0.85rem;
     font-family: var(--font-geist-mono);
     border-bottom: 1px solid var(--color-border-medium);
@@ -383,23 +383,24 @@ html.dark {
     background: transparent;
   }
 
+  /* 嗯这是一个位置 */
+  figcaption[data-rehype-pretty-code-title] {
+    position: relative;
+  }
+
   /* 语言显示 (利用 figure 上的 data-language 属性) */
-  figure[data-rehype-pretty-code-figure][data-language]::after {
+  figcaption[data-rehype-pretty-code-title][data-language]::after {
     content: attr(data-language);
     position: absolute;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
     right: 0;
-    padding: 0.5rem 1rem;
+    padding-inline: 1rem;
     font-size: 0.75rem;
     font-weight: bold;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.5);
     pointer-events: none;
-  }
-
-  /* 如果有标题栏，语言标签稍微往下挪一点，或者你也可以去掉这行让它就在右上角 */
-  figure[data-rehype-pretty-code-figure]:has(figcaption)::after {
-    top: 0.5rem; /* 调整位置以对齐标题栏 */
   }
 }
 

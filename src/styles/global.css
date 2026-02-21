@@ -4,7 +4,7 @@
 @import "tailwindcss";
 
 /* ===== 2. 暗色模式配置 ===== */
-@custom-variant dark (&:where(.dark, .dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
