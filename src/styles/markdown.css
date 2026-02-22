@@ -315,29 +315,92 @@ html.dark {
 
   /* 代码块 */
   & pre {
-    overflow-x: auto;
     font-size: 0.9375em;
     line-height: 1.7142857;
-    margin-block: 1.7142857em;
-    border-radius: var(--radius-md);
+    border-radius: 0rem 0rem var(--radius-md) var(--radius-md);
     padding: 0.8571429em 1.1428571em;
 
     & code {
       font-family: var(--font-geist-mono);
-      background-color: transparent;
-      border: none !important;
       padding: 0;
       font-weight: 400;
       color: inherit;
       font-size: inherit;
-      font-family: monospace;
       line-height: inherit;
-
-      &::before,
-      &::after {
-        content: none;
-      }
     }
+  }
+
+  figure[data-rehype-pretty-code-figure] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    max-width: 100%;
+    min-width: 0;
+
+    margin-block: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-medium);
+    overflow: hidden;
+    overflow-x: hidden;
+    background-color: #272822;
+
+    /*这里的 position 是为了让语言角标定位 */
+    position: relative;
+  }
+
+  /* 文件名标题栏 (自动生成的 figcaption) */
+  figure[data-rehype-pretty-code-figure] figcaption {
+    min-width: 0%;
+    width: 100%;
+    box-sizing: border-box;
+
+    background-color: #ffffff14;
+    color: #e6e6e6;
+    padding: 0.5rem 1rem;
+    padding-right: 9rem;
+    font-size: 0.85rem;
+    font-family: var(--font-geist-mono);
+    border-bottom: 1px solid var(--color-border-medium);
+    font-family: "Cascadia Code", "Courier", monospace;
+
+    /* 防止文件名太长换行 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  figure[data-rehype-pretty-code-figure] figcaption::before {
+    content: "📄 ";
+  }
+
+  /* 代码区域 */
+  figure[data-rehype-pretty-code-figure] pre {
+    min-width: 0;
+    margin: 0;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  /* 嗯这是一个位置 */
+  figcaption[data-rehype-pretty-code-title] {
+    position: relative;
+  }
+
+  /* 语言显示 (利用 figure 上的 data-language 属性) */
+  figcaption[data-rehype-pretty-code-title][data-language]::after {
+    content: attr(data-language);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    padding-inline: 1rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
   }
 }
 
@@ -370,26 +433,6 @@ html.dark {
   & video {
     margin-block: var(--space-xl);
   }
-
-  & figure {
-    margin-block: var(--space-xl);
-
-    & > * {
-      margin-block: 0;
-    }
-
-    & img {
-      margin-block: 0;
-    }
-
-    & figcaption {
-      color: var(--color-text-muted);
-      font-size: 0.875em;
-      line-height: 1.4285714;
-      margin-block-start: 0.8571429em;
-      text-align: center;
-    }
-  }
 }
 
 .dark .markdown img:not(.noDarken) {
@@ -399,7 +442,8 @@ html.dark {
 /* ===== 表格样式 ===== */
 .markdown {
   & table {
-    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
     table-layout: auto;
     text-align: left;
     font-size: 0.9375em;
@@ -449,55 +493,6 @@ html.dark {
       }
     }
   }
-}
-
-/* ===== 拍立得风格图片 (自定义元素) ===== */
-image-div-polaroid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-block: var(--space-xl);
-}
-
-image-figure-polaroid {
-  display: inline-block;
-  background: var(--color-bg-polaroid);
-  padding: var(--space-md);
-  padding-block-end: var(--space-xl);
-  box-shadow: var(--shadow-polaroid);
-  transform: rotate(-1deg);
-  transition: all var(--transition-fast);
-  inline-size: min(55%, 300px);
-  min-inline-size: 300px;
-
-  &:hover {
-    transform: rotate(0deg) scale(1.02);
-    box-shadow: var(--shadow-polaroid-hover);
-  }
-
-  & img {
-    border-radius: 3px;
-    filter: contrast(1.1) saturate(1.1) !important;
-  }
-
-  & p {
-    margin-block-start: var(--space-md);
-    font-family: var(--font-family-handwritten);
-    font-size: 1rem;
-    color: #666;
-    text-align: center;
-  }
-}
-
-.dark image-figure-polaroid {
-  box-shadow: var(--shadow-polaroid-dark);
-}
-
-/* ===== 分割线样式 ===== */
-.markdown hr {
-  border: none;
-  border-block-start: 1px solid var(--color-border-light);
-  margin-block: var(--space-xl) auto;
 }
 
 /* ===== 锚点链接样式 ===== */
@@ -558,10 +553,6 @@ image-figure-polaroid {
   & details {
     margin-block: 1.25em;
 
-    &:not(.expressive-code *) {
-      margin-block: 1.25em;
-    }
-
     & summary {
       padding-inline-start: 1px;
       cursor: pointer;
@@ -580,48 +571,6 @@ image-figure-polaroid {
   z-index: 300;
 }
 
-/* Callouts */
-.callout {
-  padding-inline-start: 16px;
-  font-size: 15px;
-  border-radius: 0;
-
-  & p {
-    margin-block: var(--space-md);
-  }
-}
-
-/* per-type accent */
-.markdown .callout[data-callout="note"] {
-  --accent: #64748b;
-}
-.markdown .callout[data-callout="tip"] {
-  --accent: #3b82f6;
-}
-.markdown .callout[data-callout="important"] {
-  --accent: #8b5cf6;
-}
-.markdown .callout[data-callout="warning"] {
-  --accent: #f59e0b;
-}
-.markdown .callout[data-callout="caution"] {
-  --accent: #ef4444;
-}
-
-.markdown .callout :where(code):not(:where(pre *, a *)) {
-  background: color-mix(in srgb, var(--accent, #6b7280) 12%, transparent);
-  color: inherit;
-  padding-block: 0.1rem;
-  padding-inline: 0.3rem;
-}
-.dark .markdown .callout :where(code):not(:where(pre *, a *)) {
-  background: color-mix(in srgb, var(--accent, #9ca3af) 14%, transparent);
-}
-
-.callout-title-icon {
-  padding-inline-end: 2px;
-}
-
 /* ===== 响应式设计 ===== */
 @media (width <= 768px) {
   image-figure-polaroid {
@@ -637,13 +586,15 @@ image-figure-polaroid {
 
     & table {
       display: block;
-      inline-size: 100%;
+      max-width: 100%;
+      width: 100%;
+
       overflow-x: auto;
-      /* -webkit-overflow-scrolling: touch; */
+      -webkit-overflow-scrolling: touch;
       font-size: 0.875em;
 
       & :is(th, td) {
-        min-inline-size: 8em;
+        min-inline-size: 4em;
         padding: 0.5em;
       }
 
@@ -657,11 +608,6 @@ image-figure-polaroid {
       padding: 1em;
       font-size: 0.875em;
     }
-
-    /* & blockquote {
-      margin-block: 1.25em;
-      padding-inline-start: 0.875em;
-    } */
 
     & :is(img, video) {
       margin-block: 1.5em;
