@@ -20,3 +20,17 @@ export function runAstro(args) {
     });
   });
 }
+
+export function runPagefind() {
+  return new Promise((resolve, reject) => {
+    const child = spawn("npx", ["pagefind", "--site", "dist"], {
+      stdio: "inherit",
+      shell: true,
+    });
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`pagefind exited with code ${code}`));
+    });
+    child.on("error", (err) => reject(err));
+  });
+}
