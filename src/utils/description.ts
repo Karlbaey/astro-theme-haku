@@ -26,64 +26,69 @@ const excerptLengths: Record<ExcerptScene, { cjk: number; other: number }> = {
 };
 
 const htmlEntityMap: Record<string, string> = {
-  '&lt;': '<',
-  '&gt;': '>',
-  '&amp;': '&',
-  '&quot;': '"',
-  '&apos;': '\'',
-  '&nbsp;': ' ',
-}
+  "&lt;": "<",
+  "&gt;": ">",
+  "&amp;": "&",
+  "&quot;": '"',
+  "&apos;": "'",
+  "&nbsp;": " ",
+};
 
-function getExcerpt(text: string, language: Language, scene: ExcerptScene): string {
-  const isCJK = (language: Language) => ['zh', 'zh-tw', 'ja', 'ko'].includes(language)
+function getExcerpt(
+  text: string,
+  language: Language,
+  scene: ExcerptScene,
+): string {
+  const isCJK = (language: Language) =>
+    ["zh", "zh-tw", "ja", "ko"].includes(language);
   const length = isCJK(language)
     ? excerptLengths[scene].cjk
-    : excerptLengths[scene].other
+    : excerptLengths[scene].other;
 
   // Remove HTML tags
-  let cleanText = text.replace(/<[^>]*>/g, '')
+  let cleanText = text.replace(/<[^>]*>/g, "");
 
   // Decode HTML entities
   Object.entries(htmlEntityMap).forEach(([entity, char]) => {
-    cleanText = cleanText.replace(new RegExp(entity, 'g'), char)
-  })
+    cleanText = cleanText.replace(new RegExp(entity, "g"), char);
+  });
 
   // Normalize whitespace
-  cleanText = cleanText.replace(/\s+/g, ' ')
+  cleanText = cleanText.replace(/\s+/g, " ");
 
   // Normalize CJK punctuation spacing
-  cleanText = cleanText.replace(/([。？！："」』])\s+/g, '$1')
+  cleanText = cleanText.replace(/([。？！："」』])\s+/g, "$1");
 
-  const excerpt = cleanText.slice(0, length).trim()
+  const excerpt = cleanText.slice(0, length).trim();
 
   // Remove trailing punctuation and add ellipsis
   if (cleanText.length > length) {
-    return `${excerpt.replace(/\p{P}+$/u, '')}……`
+    return `${excerpt.replace(/\p{P}+$/u, "")}……`;
   }
 
-  return excerpt
+  return excerpt;
 }
 
 export function getArticleDescription(
-  article: CollectionEntry<'articles'>,
+  article: CollectionEntry<"articles">,
   scene: ExcerptScene,
 ): string {
   if (article.data.description) {
     // Only truncate for og scene, return full description for other scenes
-    return scene === 'og'
+    return scene === "og"
       ? getExcerpt(article.data.description, lang, scene)
-      : article.data.description
+      : article.data.description;
   }
 
-  const rawContent = article.body || ''
+  const rawContent = article.body || "";
   const cleanContent = rawContent
-    .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments
-    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-    .replace(/^\s*#{1,6}\s+\S.*$/gm, '') // Remove Markdown headings
-    .replace(/^\s*::.*$/gm, '') // Remove directive containers
-    .replace(/^\s*>\s*\[!.*\]$/gm, '') // Remove GitHub admonition markers
-    .replace(/\n{2,}/g, '\n\n') // Normalize newlines
+    .replace(/<!--[\s\S]*?-->/g, "") // Remove HTML comments
+    .replace(/```[\s\S]*?```/g, "") // Remove code blocks
+    .replace(/^\s*#{1,6}\s+\S.*$/gm, "") // Remove Markdown headings
+    .replace(/^\s*::.*$/gm, "") // Remove directive containers
+    .replace(/^\s*>\s*\[!.*\]$/gm, "") // Remove GitHub admonition markers
+    .replace(/\n{2,}/g, "\n\n"); // Normalize newlines
 
-  const renderedContent = markdownParser.render(cleanContent)
-  return getExcerpt(renderedContent, lang, scene)
+  const renderedContent = markdownParser.render(cleanContent);
+  return getExcerpt(renderedContent, lang, scene);
 }

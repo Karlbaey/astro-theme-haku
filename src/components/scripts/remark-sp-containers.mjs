@@ -1,135 +1,139 @@
-import { visit } from 'unist-util-visit'
+import { visit } from "unist-util-visit";
 
 const admonitionTypes = {
-  note: 'NOTE',
-  tip: 'TIP',
-  important: 'IMPORTANT',
-  warning: 'WARNING',
-  caution: 'CAUTION',
-}
+  note: "NOTE",
+  tip: "TIP",
+  important: "IMPORTANT",
+  warning: "WARNING",
+  caution: "CAUTION",
+};
 
 // Extract text from directive label
 function getLabelText(node) {
-  return node?.children
-    ?.map(child => child.type === 'text' ? child.value : '')
-    .join('')
-    .trim() || ''
+  return (
+    node?.children
+      ?.map((child) => (child.type === "text" ? child.value : ""))
+      .join("")
+      .trim() || ""
+  );
 }
 
 // Admonition Blocks
 function createAdmonition(node, type, title) {
-  const titleSpan = `<span class="admonition-title">${title}</span>`
+  const titleSpan = `<span class="admonition-title">${title}</span>`;
 
-  node.data ??= {}
-  node.data.hName = 'blockquote'
+  node.data ??= {};
+  node.data.hName = "blockquote";
   node.data.hProperties = {
     className: `admonition-${type}`,
-  }
+  };
 
   node.children.unshift({
-    type: 'html',
+    type: "html",
     value: titleSpan,
-  })
+  });
 }
 
 // Collapsible Sections
 function createFoldSection(node, title) {
-  const summary = `<summary>${title}</summary>`
+  const summary = `<summary>${title}</summary>`;
 
-  node.data ??= {}
-  node.data.hName = 'details'
+  node.data ??= {};
+  node.data.hName = "details";
 
   node.children.unshift({
-    type: 'html',
+    type: "html",
     value: summary,
-  })
+  });
 }
 
 // Gallery Containers
 function createGallery(node) {
-  node.data ??= {}
-  node.data.hName = 'div'
+  node.data ??= {};
+  node.data.hName = "div";
   node.data.hProperties = {
-    className: ['gallery-container'],
-  }
+    className: ["gallery-container"],
+  };
 }
 
 export function remarkContainerDirectives() {
   const githubAdmonitionRegex = new RegExp(
-    `^\\s*\\[!(${Object.values(admonitionTypes).join('|')})\\]\\s*`,
-    'i',
-  )
+    `^\\s*\\[!(${Object.values(admonitionTypes).join("|")})\\]\\s*`,
+    "i",
+  );
 
   return (tree) => {
     // Handle :::type[title] syntax
-    visit(tree, 'containerDirective', (node) => {
-      const type = node.name
-      const labelNode = node.children?.[0]
+    visit(tree, "containerDirective", (node) => {
+      const type = node.name;
+      const labelNode = node.children?.[0];
 
       // Admonition Blocks
       if (admonitionTypes[type]) {
         // Optional [title] for admonitions
-        let title = admonitionTypes[type]
+        let title = admonitionTypes[type];
 
         if (labelNode?.data?.directiveLabel) {
-          const customTitle = getLabelText(labelNode)
+          const customTitle = getLabelText(labelNode);
           if (customTitle) {
-            title = customTitle
+            title = customTitle;
           }
-          node.children.shift()
+          node.children.shift();
         }
 
-        createAdmonition(node, type, title)
-        return
+        createAdmonition(node, type, title);
+        return;
       }
 
       // Collapsible Sections
-      if (type === 'fold') {
+      if (type === "fold") {
         // Require non-empty [title]
-        const title = getLabelText(labelNode)
+        const title = getLabelText(labelNode);
         if (!labelNode?.data?.directiveLabel || !title) {
-          console.warn(`:::fold syntax requires [title] brackets with non-empty content`)
-          return
+          console.warn(
+            `:::fold syntax requires [title] brackets with non-empty content`,
+          );
+          return;
         }
 
-        node.children.shift()
-        createFoldSection(node, title)
-        return
+        node.children.shift();
+        createFoldSection(node, title);
+        return;
       }
 
       // Gallery Containers
-      if (type === 'gallery') {
+      if (type === "gallery") {
         // Remove label if exists
         if (labelNode?.data?.directiveLabel) {
-          node.children.shift()
+          node.children.shift();
         }
 
-        createGallery(node)
+        createGallery(node);
       }
-    })
+    });
 
     // Handle > [!TYPE] syntax
-    visit(tree, 'blockquote', (node) => {
-      const firstTextNode = node.children?.[0]?.children?.[0]
-      if (firstTextNode?.type !== 'text') {
-        return
+    visit(tree, "blockquote", (node) => {
+      const firstTextNode = node.children?.[0]?.children?.[0];
+      if (firstTextNode?.type !== "text") {
+        return;
       }
 
-      const match = firstTextNode.value.match(githubAdmonitionRegex)
+      const match = firstTextNode.value.match(githubAdmonitionRegex);
       if (!match) {
-        return
+        return;
       }
 
-      const type = match[1].toLowerCase()
-      const title = admonitionTypes[type]
+      const type = match[1].toLowerCase();
+      const title = admonitionTypes[type];
 
       if (!title) {
-        return
+        return;
       }
 
-      firstTextNode.value = firstTextNode.value.substring(match[0].length)
+      firstTextNode.value = firstTextNode.value.substring(match[0].length);
 
-      createAdmonition(node, type, title)
-    })
-  }
+      createAdmonition(node, type, title);
+    });
+  };
 }
