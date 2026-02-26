@@ -7,21 +7,21 @@ export type Article = CollectionEntry<"articles"> & {
 };
 
 export const langMap = {
-  'de': ['de-DE'],
-  'en': ['en-US'],
-  'es': ['es-ES'],
-  'fr': ['fr-FR'],
-  'ja': ['ja-JP'],
-  'ko': ['ko-KR'],
-  'pl': ['pl-PL'],
-  'pt': ['pt-BR'],
-  'ru': ['ru-RU'],
-  'zh': ['zh-CN'],
-  'zh-tw': ['zh-TW'],
-} as const
+  de: ["de-DE"],
+  en: ["en-US"],
+  es: ["es-ES"],
+  fr: ["fr-FR"],
+  ja: ["ja-JP"],
+  ko: ["ko-KR"],
+  pl: ["pl-PL"],
+  pt: ["pt-BR"],
+  ru: ["ru-RU"],
+  zh: ["zh-CN"],
+  "zh-tw": ["zh-TW"],
+} as const;
 
 // Supported Languages
-export type Language = keyof typeof langMap
+export type Language = keyof typeof langMap;
 
 export interface ThemeConfig {
   site: {
@@ -36,22 +36,28 @@ export interface ThemeConfig {
   global: {
     lang: Language;
     toc: boolean;
-    dateFmt: 'YYYY-MM-DD' | 'MM-DD-YYYY' | 'DD-MM-YYYY' | 'YYYY MMM D' | 'MMM D YYYY' | 'D MMM YYYY'
+    dateFmt:
+      | "YYYY-MM-DD"
+      | "MM-DD-YYYY"
+      | "DD-MM-YYYY"
+      | "YYYY MMM D"
+      | "MMM D YYYY"
+      | "D MMM YYYY";
   };
   color: {
-    mode: 'light' | 'dark' | 'auto'
+    mode: "light" | "dark" | "auto";
     light: {
-      primary: string
-      secondary: string
-      background: string
-      highlight: string
-    }
+      primary: string;
+      secondary: string;
+      background: string;
+      highlight: string;
+    };
     dark: {
-      primary: string
-      secondary: string
-      background: string
-      highlight: string
-    }
+      primary: string;
+      secondary: string;
+      background: string;
+      highlight: string;
+    };
   };
 }
 
