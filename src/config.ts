@@ -2,53 +2,42 @@ import type { ThemeConfig } from "@/types";
 
 export const themeConfig: ThemeConfig = {
   site: {
+    // site title
     title: "Haku",
+    // site subtitle
     subtitle: "A simple astro theme",
+    // site description
     description: "A demo",
+    // site author, show in footer
     author: "Hakubot",
+    // where your site shows
     base: "/",
+    // your url
+    // like karlbaey.github.io for GitHub
     url: "https://haku.karlbaey.top",
+    // in public/favicon.png
     favicon: "/favicon.png",
   },
   global: {
-    lang: "zh",
+    // your site language， now is simplified Chinese
+    lang: "zh", // "zh" | "de" | "en" | "es" | "fr" | "ja" | "ko" | "pl" | "pt" | "ru" | "zh-tw"
+    // show table of content
     toc: true,
     dateFmt: "YYYY MMM D", // 'YYYY-MM-DD' | 'MM-DD-YYYY' | 'DD-MM-YYYY' | 'MMM D YYYY' | 'D MMM YYYY'
   },
   color: {
     // default theme mode
     mode: "light", // light | dark | auto
-    light: {
-      // primary color
-      // used for title, hover, etc
-      // oklch color picker: https://oklch.com/
-      primary: "oklch(25% 0.005 298)",
-      // secondary color
-      // used for post text
-      secondary: "oklch(40% 0.005 298)",
-      // background color
-      background: "oklch(96% 0.005 298)",
-      // highlight color
-      // used for navbar, selected text, etc
-      highlight: "oklch(0.93 0.195089 103.2532 / 0.5)",
-    },
-    dark: {
-      // primary color
-      primary: "oklch(92% 0.005 298)",
-      // secondary color
-      secondary: "oklch(77% 0.005 298)",
-      // background color
-      background: "oklch(22% 0.005 298)",
-      // highlight color
-      highlight: "oklch(0.93 0.195089 103.2532 / 0.2)",
-    },
   },
   comments: {
+    // you can use Giscus, Waline, or simply both
     providers: ["giscus", "waline"],
+    // Giscus settings
+    // see https://haku.karlbaey.top/articles/configuration#giscus-配置
     giscus: {
       enabled: true,
       host: "https://giscus.app",
-      repo: "Karlbaey/astro-theme-haku",
+      repo: "Karlbaey/Haku",
       repoID: "R_kgDOQWi63Q",
       category: "Announcements",
       categoryID: "DIC_kwDOQWi63c4CyFMJ",
@@ -61,6 +50,8 @@ export const themeConfig: ThemeConfig = {
       lang: "zh-CN",
       loading: "lazy",
     },
+    // Waline settings
+    // see https://haku.karlbaey.top/articles/configuration#waline-配置
     waline: {
       enabled: true,
       serverURL: "https://wa.karlbaey.top",
@@ -74,10 +65,12 @@ export const themeConfig: ThemeConfig = {
       emoji: [],
     },
   },
+  // show social media sharing buttons
   socialShare: {
     activated: true,
     providers: ["twitter", "qq", "mastodon"],
   },
+  // leave them empty if you do not want to use website analytics
   analytics: {
     // Create your own google analytics ID
     // https://analytics.google.com/analytics/web/
