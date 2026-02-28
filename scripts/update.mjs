@@ -5,7 +5,7 @@ import kleur from "kleur";
 
 const execAsync = util.promisify(exec);
 const upstreamUrl = "https://github.com/Karlbaey/Haku";
-const upstreamRemote = "haku-upstream";
+const upstreamRemote = "origin";
 
 async function runGitCommand(cmd) {
   try {
@@ -119,38 +119,8 @@ export async function update() {
   console.log(kleur.cyan(`Upstream branch: ${defaultBranch}`));
   console.log(kleur.cyan(`Fetched latest commit from: ${upstreamUrl}`));
 
-  const { mergeMode } = await prompts({
-    type: "select",
-    name: "mergeMode",
-    message: "If conflicts happen, whose changes should be preferred?",
-    choices: [
-      {
-        title: "Prefer my local changes",
-        value: "ours",
-      },
-      {
-        title: "Prefer upstream Haku changes",
-        value: "theirs",
-      },
-      {
-        title: "Manual conflict resolution",
-        value: "manual",
-      },
-    ],
-    initial: 0,
-  });
-
-  if (!mergeMode) {
-    console.log(kleur.yellow("Update cancelled."));
-    return;
-  }
-
   const targetRef = `${upstreamRemote}/${defaultBranch}`;
-  const mergeBaseCmd = `git merge --no-ff --no-edit`;
-  const mergeCmd =
-    mergeMode === "manual"
-      ? `${mergeBaseCmd} ${targetRef}`
-      : `${mergeBaseCmd} -X ${mergeMode} ${targetRef}`;
+  const mergeCmd = `git merge --no-ff --no-edit --allow-unrelated-histories ${targetRef}`;
 
   try {
     const { stdout, stderr } = await execAsync(mergeCmd, { cwd: process.cwd() });
@@ -163,19 +133,11 @@ export async function update() {
     console.log(kleur.green("\nUpdate merged successfully!"));
   } catch (error) {
     console.error(kleur.red("\nMerge reported conflicts or failed."));
-    if (mergeMode === "manual") {
-      console.log(
-        kleur.yellow(
-          "Resolve conflicts manually, then commit. Use `git merge --abort` to cancel.",
-        ),
-      );
-    } else {
-      console.log(
-        kleur.yellow(
-          "Try again with another preference mode or resolve conflicts manually.",
-        ),
-      );
-    }
+    console.log(
+      kleur.yellow(
+        "Resolve conflicts manually, then commit. Use `git merge --abort` to cancel.",
+      ),
+    );
     console.error(kleur.red(error.stderr || error.message));
     process.exit(1);
   }
