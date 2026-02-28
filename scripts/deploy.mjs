@@ -35,14 +35,14 @@ async function getCurrentBranch() {
     const branch = await runGitCommand("git rev-parse --abbrev-ref HEAD");
     if (branch === "HEAD") {
       console.error(
-        kleur.red("Error: You are in detached HEAD state. Switch to a branch."),
+        kleur.red("❌ Error: You are in detached HEAD state. Switch to a branch."),
       );
       process.exit(1);
     }
     return branch;
   } catch (error) {
     console.error(
-      kleur.red(`Error: Failed to get current branch: ${error.message}`),
+      kleur.red(`❌ Error: Failed to get current branch: ${error.message}`),
     );
     process.exit(1);
   }
@@ -53,7 +53,7 @@ async function getRemoteUrl(remote) {
   try {
     return await runGitCommand(`git remote get-url ${remote}`);
   } catch {
-    console.error(kleur.red(`Error: Remote '${remote}' not found.`));
+    console.error(kleur.red(`❌ Error: Remote '${remote}' not found.`));
     process.exit(1);
   }
 }
@@ -68,7 +68,7 @@ async function stageAndCommit() {
   });
 
   if (typeof shouldStageAll !== "boolean") {
-    console.log(kleur.yellow("Deploy cancelled."));
+    console.log(kleur.yellow("🛑 Deploy cancelled."));
     return false;
   }
 
@@ -79,7 +79,7 @@ async function stageAndCommit() {
   try {
     await runGitCommand("git add .");
   } catch (error) {
-    console.error(kleur.red(`Error: Failed to stage files: ${error.message}`));
+    console.error(kleur.red(`❌ Error: Failed to stage files: ${error.message}`));
     process.exit(1);
   }
 
@@ -92,14 +92,14 @@ async function stageAndCommit() {
   });
 
   if (!commitMessage || !commitMessage.trim()) {
-    console.log(kleur.yellow("Deploy cancelled."));
+    console.log(kleur.yellow("🛑 Deploy cancelled."));
     return false;
   }
 
   try {
     const safeCommitMessage = commitMessage.replace(/"/g, '\\"');
     await runGitCommand(`git commit -m "${safeCommitMessage}"`);
-    console.log(kleur.green("Commit created successfully."));
+    console.log(kleur.green("✅ Commit created successfully."));
   } catch (error) {
     const message = error.message || "";
     if (
@@ -118,7 +118,7 @@ async function stageAndCommit() {
 
 // 部署到远端仓库
 export async function deploy() {
-  console.log(kleur.bold().blue("\nDeploying via git\n"));
+  console.log(kleur.bold().blue("\n🚀 Deploying via git\n"));
 
   await ensureGitRepo();
 
@@ -126,8 +126,8 @@ export async function deploy() {
   const remote = "origin";
   const remoteUrl = await getRemoteUrl(remote);
 
-  console.log(kleur.cyan(`Remote: ${remote} -> ${remoteUrl}`));
-  console.log(kleur.cyan(`Branch: ${currentBranch}`));
+  console.log(kleur.cyan(`📦 Remote: ${remote} -> ${remoteUrl}`));
+  console.log(kleur.cyan(`🌿 Branch: ${currentBranch}`));
 
   // 获取 git 信息
   let status;
@@ -135,14 +135,14 @@ export async function deploy() {
     status = await runGitCommand("git status --porcelain"); // 比较干净的 status 输出
   } catch (error) {
     console.error(
-      kleur.red(`Error: Failed to check git status: ${error.message}`),
+      kleur.red(`❌ Error: Failed to check git status: ${error.message}`),
     );
     process.exit(1);
   }
 
   // 提示有未提交/未暂存的文件
   if (status) {
-    console.log(kleur.yellow("\nYou have uncommitted changes:"));
+    console.log(kleur.yellow("\n⚠️ You have uncommitted changes:"));
     console.log(
       status
         .split("\n")
@@ -164,7 +164,7 @@ export async function deploy() {
   });
 
   if (!confirmPush) {
-    console.log(kleur.yellow("Deploy cancelled."));
+    console.log(kleur.yellow("🛑 Deploy cancelled."));
     return;
   }
 
@@ -181,7 +181,7 @@ export async function deploy() {
     if (stderr) {
       console.error(kleur.yellow(stderr));
     }
-    console.log(kleur.green("\nDeployed successfully!"));
+    console.log(kleur.green("\n✅ Deployed successfully!"));
   } catch (error) {
     console.error(
       kleur.red(`\nError: Push failed:\n${error.stderr || error.message}`),
