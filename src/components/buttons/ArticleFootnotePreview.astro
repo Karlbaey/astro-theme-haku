@@ -72,32 +72,29 @@
     }
   };
 
-  const updateTooltipPosition = (clientX: number, clientY: number) => {
+  const updateTooltipPosition = (trigger: HTMLAnchorElement) => {
     const currentTooltip = getTooltip();
     const margin = 16;
     const { innerWidth, innerHeight } = window;
     const tooltipRect = currentTooltip.getBoundingClientRect();
+    const triggerRect = trigger.getBoundingClientRect();
 
-    let left = clientX + TOOLTIP_OFFSET;
-    let top = clientY + TOOLTIP_OFFSET;
+    let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
+    let top = triggerRect.bottom + TOOLTIP_OFFSET;
 
     if (left + tooltipRect.width > innerWidth - margin) {
       left = innerWidth - tooltipRect.width - margin;
     }
 
     if (top + tooltipRect.height > innerHeight - margin) {
-      top = clientY - tooltipRect.height - TOOLTIP_OFFSET;
+      top = triggerRect.top - tooltipRect.height - TOOLTIP_OFFSET;
     }
 
     currentTooltip.style.left = `${Math.max(margin, left)}px`;
     currentTooltip.style.top = `${Math.max(margin, top)}px`;
   };
 
-  const showTooltip = (
-    trigger: HTMLAnchorElement,
-    clientX: number,
-    clientY: number,
-  ) => {
+  const showTooltip = (trigger: HTMLAnchorElement) => {
     const content = getFootnoteContent(trigger);
 
     if (!content) {
@@ -115,7 +112,7 @@
     activeTrigger = trigger;
     activeTrigger.setAttribute("aria-describedby", FOOTNOTE_TOOLTIP_ID);
 
-    updateTooltipPosition(clientX, clientY);
+    updateTooltipPosition(trigger);
   };
 
   const handlePointerEnter = (event: PointerEvent) => {
@@ -125,7 +122,7 @@
       return;
     }
 
-    showTooltip(trigger, event.clientX, event.clientY);
+    showTooltip(trigger);
   };
 
   const handlePointerMove = (event: PointerEvent) => {
@@ -139,7 +136,7 @@
       return;
     }
 
-    updateTooltipPosition(event.clientX, event.clientY);
+    updateTooltipPosition(trigger);
   };
 
   const handleFocus = (event: FocusEvent) => {
@@ -149,8 +146,7 @@
       return;
     }
 
-    const rect = trigger.getBoundingClientRect();
-    showTooltip(trigger, rect.left + rect.width / 2, rect.bottom);
+    showTooltip(trigger);
   };
 
   const initArticleFootnotePreview = () => {
@@ -173,7 +169,6 @@
       trigger.addEventListener("blur", hideTooltip);
     });
   };
-
   document.addEventListener("scroll", hideTooltip, true);
   document.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
