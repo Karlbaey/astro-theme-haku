@@ -1,50 +1,25 @@
-# Repository Guidelines
+# 代码仓库指南
 
-## Project Structure & Module Organization
+## 项目结构和模块组织
 
-- Core site code lives in `src/`.
-- Pages and routes are in `src/pages/` (for example `src/pages/articles/[...slug].astro`).
-- Reusable UI is grouped under `src/components/` (`meta/`, `buttons/`, `styles/`, `scripts/`).
-- Shared layouts are in `src/layouts/`, utilities in `src/utils/`, and global types in `src/types/`.
-- Content collections are in `src/content/` (`articles/`, `main_page/`), with schema in `src/content.config.ts`.
-- Static files are in `public/`; CLI entrypoint is `bin/haku.mjs`; automation helpers are in `scripts/`.
+网站核心代码位于 `src/` 目录下。路由文件和页面位于 `src/pages/` 目录下，包括动态文章路由，例如 `src/pages/articles/[...slug].astro`。可复用的 UI 组件按用途组织在 `src/components/` 目录下（`meta/`、`buttons/`、`styles/`、`scripts/`）。共享布局位于 `src/layouts/` 目录下，小型辅助工具位于 `src/utils/` 目录下，项目通用的类型定义位于 `src/types/` 目录下。内容集合位于 `src/content/` 目录下，其模式位于 `src/content.config.ts` 文件中。静态资源位于 `public/` 目录下，项目脚本位于 `scripts/` 目录下。CLI 入口点为 `bin/haku.mjs`。
 
-## Build, Test, and Development Commands
+## 构建、测试和开发命令
 
-- `pnpm install` — install dependencies.
-- `pnpm dev` — start Astro dev server for local development.
-- `pnpm build` — build production output and run Pagefind indexing (`dist/`).
-- `pnpm preview` — serve the built site locally for final verification.
-- `pnpm astro -- check` — run Astro project checks when validating content/routes.
+使用 `pnpm install` 安装依赖项。运行 `pnpm dev` 启动 Astro 开发服务器。运行 `pnpm build` 创建生产版本并在 `dist/` 目录下生成 Pagefind 索引。使用 `pnpm preview` 在本地部署构建输出以进行手动验证。运行 `pnpm astro -- check` 验证 Astro 路由、内容和项目配置。
 
-## Coding Style & Naming Conventions
+## 编码风格和命名规范
 
-- Use TypeScript + Astro ESM modules; prefer explicit imports and small focused utilities.
-- Follow existing formatting in touched files (current codebase primarily uses 2-space indentation).
-- Use `PascalCase` for component files (e.g., `LatestArticles.astro`), `camelCase` for variables/functions, and kebab-case for script filenames when already established.
-- Keep route/content filenames consistent with current collection conventions.
+使用 TypeScript 和 Astro ESM 模块，并显式导入，使用简洁的实用工具。遵循已修改文件的现有格式；该仓库主要使用 2 个空格缩进。组件文件名使用 `PascalCase`，例如 `LatestArticles.astro`，变量和函数文件名使用 `camelCase`，并保持路由/内容文件名与当前集合模式一致。保留现有注释并使用 UTF-8 文本编码。
 
-## Testing Guidelines
+## 测试指南
 
-- No dedicated automated test suite is configured yet.
-- For changes, run at minimum:
-  - `pnpm build`
-  - `pnpm preview` and manually verify updated pages/components.
-- If adding tests, prefer Playwright (already in dev dependencies) and place specs in a clear `tests/` directory with `*.spec.ts` naming.
+目前还没有专门的自动化测试套件。对于任何更改，至少运行 `pnpm build`，然后使用 `pnpm preview` 手动验证受影响的页面或组件。如果您要添加测试，建议使用 Playwright，并将测试用例放在 `tests/` 目录下，并使用 `*.spec.ts` 文件名。
 
-## Commit & Pull Request Guidelines
+## 提交和拉取请求指南
 
-- Follow Conventional Commit style seen in history: `feat:`, `fix:`, `chore:`, optional scope (e.g., `chore(deps): ...`).
-- Keep commits focused and descriptive; reference issues when applicable (`(#123)`).
-- PRs should include:
-  - linked issue (`Closes #...` when relevant),
-  - change summary and impact,
-  - screenshots/GIFs for UI changes,
-  - confirmation that `pnpm build` passes.
+在完成任务的最后执行 `pnpm build` 检查是否可通过编译。禁止执行任何 git 命令。
 
-## Security & Configuration Tips
+## 安全和配置提示
 
-- Do not commit secrets or environment-specific credentials.
-- Keep site-level settings centralized in `src/config.ts` and avoid hardcoding duplicate values across components.
-- Ever use UTF-8 text encoding.
-- Do not delete any code comment.
+请勿提交密钥或特定于环境的凭据。请将站点级设置集中在 `src/config.ts` 文件中，并避免在组件之间硬编码重复值。始终使用 UTF-8 文本编码。请勿删除任何代码注释。使用中文回答问题。
