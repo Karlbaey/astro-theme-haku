@@ -1,0 +1,185 @@
+<script>
+  const FOOTNOTE_REF_SELECTOR = "#article-content a[data-footnote-ref]";
+  const FOOTNOTE_TOOLTIP_ID = "article-footnote-tooltip";
+  const FOOTNOTE_TOOLTIP_VISIBLE_CLASS = "is-visible";
+  const TOOLTIP_OFFSET = 14;
+
+  let activeTrigger: HTMLAnchorElement | undefined;
+  let tooltip: HTMLDivElement | undefined;
+
+  const getTooltip = () => {
+    if (tooltip?.isConnected) {
+      return tooltip;
+    }
+
+    const existingTooltip = document.getElementById(FOOTNOTE_TOOLTIP_ID);
+
+    if (existingTooltip instanceof HTMLDivElement) {
+      tooltip = existingTooltip;
+      return tooltip;
+    }
+
+    tooltip = document.createElement("div");
+    tooltip.id = FOOTNOTE_TOOLTIP_ID;
+    tooltip.className = "footnote-tooltip";
+    tooltip.setAttribute("role", "note");
+    tooltip.setAttribute("aria-hidden", "true");
+    document.body.appendChild(tooltip);
+
+    return tooltip;
+  };
+
+  const getFootnoteContent = (trigger: HTMLAnchorElement) => {
+    const footnoteId = trigger.getAttribute("href")?.slice(1);
+
+    if (!footnoteId) {
+      return "";
+    }
+
+    const footnote = document.getElementById(footnoteId);
+
+    if (!(footnote instanceof HTMLElement)) {
+      return "";
+    }
+
+    const footnoteClone = footnote.cloneNode(true);
+
+    if (!(footnoteClone instanceof HTMLElement)) {
+      return "";
+    }
+
+    footnoteClone
+      .querySelectorAll("a[data-footnote-backref], .data-footnote-backref")
+      .forEach((backref) => backref.remove());
+
+    footnoteClone.querySelectorAll("[id]").forEach((element) => {
+      element.removeAttribute("id");
+    });
+
+    return footnoteClone.innerHTML.trim();
+  };
+
+  const hideTooltip = () => {
+    const currentTooltip = getTooltip();
+
+    currentTooltip.classList.remove(FOOTNOTE_TOOLTIP_VISIBLE_CLASS);
+    currentTooltip.setAttribute("aria-hidden", "true");
+    currentTooltip.innerHTML = "";
+
+    if (activeTrigger) {
+      activeTrigger.removeAttribute("aria-describedby");
+      activeTrigger = undefined;
+    }
+  };
+
+  const updateTooltipPosition = (clientX: number, clientY: number) => {
+    const currentTooltip = getTooltip();
+    const margin = 16;
+    const { innerWidth, innerHeight } = window;
+    const tooltipRect = currentTooltip.getBoundingClientRect();
+
+    let left = clientX + TOOLTIP_OFFSET;
+    let top = clientY + TOOLTIP_OFFSET;
+
+    if (left + tooltipRect.width > innerWidth - margin) {
+      left = innerWidth - tooltipRect.width - margin;
+    }
+
+    if (top + tooltipRect.height > innerHeight - margin) {
+      top = clientY - tooltipRect.height - TOOLTIP_OFFSET;
+    }
+
+    currentTooltip.style.left = `${Math.max(margin, left)}px`;
+    currentTooltip.style.top = `${Math.max(margin, top)}px`;
+  };
+
+  const showTooltip = (
+    trigger: HTMLAnchorElement,
+    clientX: number,
+    clientY: number,
+  ) => {
+    const content = getFootnoteContent(trigger);
+
+    if (!content) {
+      hideTooltip();
+      return;
+    }
+
+    const currentTooltip = getTooltip();
+
+    currentTooltip.innerHTML = content;
+    currentTooltip.classList.add(FOOTNOTE_TOOLTIP_VISIBLE_CLASS);
+    currentTooltip.setAttribute("aria-hidden", "false");
+
+    activeTrigger?.removeAttribute("aria-describedby");
+    activeTrigger = trigger;
+    activeTrigger.setAttribute("aria-describedby", FOOTNOTE_TOOLTIP_ID);
+
+    updateTooltipPosition(clientX, clientY);
+  };
+
+  const handlePointerEnter = (event: PointerEvent) => {
+    const trigger = event.currentTarget;
+
+    if (!(trigger instanceof HTMLAnchorElement)) {
+      return;
+    }
+
+    showTooltip(trigger, event.clientX, event.clientY);
+  };
+
+  const handlePointerMove = (event: PointerEvent) => {
+    const trigger = event.currentTarget;
+
+    if (!(trigger instanceof HTMLAnchorElement)) {
+      return;
+    }
+
+    if (!activeTrigger || activeTrigger !== trigger) {
+      return;
+    }
+
+    updateTooltipPosition(event.clientX, event.clientY);
+  };
+
+  const handleFocus = (event: FocusEvent) => {
+    const trigger = event.currentTarget;
+
+    if (!(trigger instanceof HTMLAnchorElement)) {
+      return;
+    }
+
+    const rect = trigger.getBoundingClientRect();
+    showTooltip(trigger, rect.left + rect.width / 2, rect.bottom);
+  };
+
+  const initArticleFootnotePreview = () => {
+    hideTooltip();
+
+    document.querySelectorAll(FOOTNOTE_REF_SELECTOR).forEach((trigger) => {
+      if (!(trigger instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      if (trigger.dataset.footnotePreviewBound === "true") {
+        return;
+      }
+
+      trigger.dataset.footnotePreviewBound = "true";
+      trigger.addEventListener("pointerenter", handlePointerEnter);
+      trigger.addEventListener("pointermove", handlePointerMove);
+      trigger.addEventListener("pointerleave", hideTooltip);
+      trigger.addEventListener("focus", handleFocus);
+      trigger.addEventListener("blur", hideTooltip);
+    });
+  };
+
+  document.addEventListener("scroll", hideTooltip, true);
+  document.addEventListener("keydown", (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      hideTooltip();
+    }
+  });
+  document.addEventListener("DOMContentLoaded", initArticleFootnotePreview);
+  document.addEventListener("astro:page-load", initArticleFootnotePreview);
+</script>

@@ -12,6 +12,7 @@ import SocialShare from "@/components/meta/SocialShare.astro";
 import Layout from "@/layouts/Layout.astro";
 import { checkArticleSlugDuplication } from "@/utils/content";
 import ArticleImageZoom from "@/components/buttons/ArticleImageZoom.astro";
+import ArticleFootnotePreview from "@/components/buttons/ArticleFootnotePreview.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles");
@@ -89,4 +90,5 @@ const { Content, headings } = await render(article);
     </div>
   </div>
   <ArticleImageZoom />
+  <ArticleFootnotePreview />
 </Layout>
