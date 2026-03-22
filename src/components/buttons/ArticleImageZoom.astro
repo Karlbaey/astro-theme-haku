@@ -1,26 +1,76 @@
 <script>
   import mediumZoom from "medium-zoom";
 
-  let zoom: import("medium-zoom").Zoom | undefined;
+  type Zoom = import("medium-zoom").Zoom;
 
-  const initArticleImageZoom = () => {
-    zoom?.detach();
+  type ArticleImageZoomState = {
+    bound: boolean;
+    images: HTMLImageElement[];
+    zoom: Zoom;
+  };
 
-    const images = document.querySelectorAll<HTMLElement>(
-      "#article-content [data-zoomable]",
+  type ArticleImageZoomWindow = Window & typeof globalThis & {
+    __articleImageZoom?: ArticleImageZoomState;
+  };
+
+  const ARTICLE_IMAGE_SELECTOR = "#article-content img[data-zoomable]";
+  const articleImageZoomWindow = window as ArticleImageZoomWindow;
+
+  const getArticleImageZoomState = () => {
+    if (articleImageZoomWindow.__articleImageZoom) {
+      return articleImageZoomWindow.__articleImageZoom;
+    }
+
+    articleImageZoomWindow.__articleImageZoom = {
+      bound: false,
+      images: [],
+      zoom: mediumZoom({
+        background: "rgb(10 10 10 / 0.85)",
+        margin: 24,
+        scrollOffset: 0,
+      }),
+    };
+
+    return articleImageZoomWindow.__articleImageZoom;
+  };
+
+  const syncArticleImageZoom = () => {
+    const state = getArticleImageZoomState();
+
+    if (state.images.length) {
+      state.zoom.detach(state.images);
+    }
+
+    const images = Array.from(
+      document.querySelectorAll<HTMLImageElement>(ARTICLE_IMAGE_SELECTOR),
     );
+
+    state.images = images;
 
     if (!images.length) {
       return;
     }
 
-    zoom = mediumZoom(images, {
-      background: "rgb(10 10 10 / 0.85)",
-      margin: 24,
-      scrollOffset: 0,
-    });
+    state.zoom.attach(images);
   };
 
-  document.addEventListener("DOMContentLoaded", initArticleImageZoom);
-  document.addEventListener("astro:page-load", initArticleImageZoom);
+  const initArticleImageZoom = () => {
+    const state = getArticleImageZoomState();
+
+    if (!state.bound) {
+      document.addEventListener("astro:page-load", syncArticleImageZoom);
+      state.bound = true;
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", syncArticleImageZoom, {
+        once: true,
+      });
+      return;
+    }
+
+    syncArticleImageZoom();
+  };
+
+  initArticleImageZoom();
 </script>
