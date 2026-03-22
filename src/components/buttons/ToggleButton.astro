@@ -75,12 +75,15 @@ const defaultThemeMode = themeConfig.color.mode;
     );
     document.documentElement.setAttribute("data-theme-changing", "");
 
+    const transition = document.startViewTransition(() => {
+      toggleTheme();
+    });
 
-    // Use View Transitions API for theme toggle
-    const transition = document.startViewTransition(toggleTheme);
-
+    transition.finished.finally(() => {
       document.documentElement.removeAttribute("data-theme-changing");
-    };
+      document.documentElement.style.removeProperty("view-transition-name");
+    });
+  }
 
   initializeTheme();
   document.addEventListener("click", handleThemeToggleClick);

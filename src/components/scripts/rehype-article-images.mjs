@@ -55,7 +55,7 @@ export function rehypeArticleImages() {
       };
     });
 
-    visit(tree, "element", (node, index, parent) => {
+    visit(tree, "element", (node, parent) => {
       if (!isElement(node, "img") || !parent) {
         return;
       }
